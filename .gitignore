@@ -14,9 +14,13 @@
 
 # compiled header files
 *.gch
+*.d
 
 # gedit backup
 *~
 
 #compiled binary file
 my_draw
+
+#obj directory
+obj/

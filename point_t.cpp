@@ -1,4 +1,5 @@
 #include "point_t.h"
+#include <GL/glut.h>
 
 point_t::point_t(int x, int y,pen_t pen) :object_t(pen){
 	this->x = x;
@@ -34,7 +35,7 @@ int point_t::setY(int y){
 }
 
 void point_t::draw() {
-	glColor3f(pen.getColor().r/255,pen.getColor().g/255,pen.getColor().b/255);
+	glColor3f((float)pen.getColor().r/255,(float)pen.getColor().g/255,(float)pen.getColor().b/255);
 	glPointSize(pen.getSize());
 	glBegin(GL_POINTS);
 	glVertex2f(x,y);
