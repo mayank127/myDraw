@@ -1,4 +1,6 @@
 #include "drawing_t.h"
+#include <iostream>
+using namespace std;
 
 drawing_t::drawing_t(list<object_t*> objects){
 	this->objects = objects;
@@ -35,6 +37,7 @@ void drawing_t::emptyObjectList(){
 }
 
 void drawing_t::draw(){
+	cout<<"Drawing"<<endl;
 	for (list<object_t*>::const_iterator iterator = objects.begin(), end = objects.end(); iterator != end; ++iterator) {
     	(*iterator)->draw();
 	}

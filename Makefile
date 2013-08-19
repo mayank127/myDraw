@@ -5,23 +5,32 @@ GL_LIB_DIR=/usr/lib
 
 GL_LIBS=-L$(GL_LIB_DIR) -lglut -lGLU -lGL
 
-CFLAGS = -Wall
+CPPFLAGS = -Wall
 
 .PHONY:clean
 
-OBJ = my_draw.o
 LIBS = $(GL_LIBS)
 
-all: $(OBJ) my_draw
+SRCS := $(wildcard *.cpp)
+INCS := $(wildcard *.hpp)
+OBJS := $(SRCS:%.cpp=obj/%.o)
+DEPS := $(OBJS:.o=.d)
 
-$(OBJ): %.o : %.cpp
-	$(CC) -c $(CFLAGS) $< -o $@
+TARGET = my_draw
 
-my_draw: $(OBJ)
-	$(CC) $(OBJ) $(LIBS) -o $@
+-include $(OBJS:.o=.d)
+
+all: setup $(TARGET)
+
+setup:
+	mkdir -p obj
+
+$(OBJS): obj/%.o : %.cpp
+	$(CC) $(CPPFLAGS) -c $< -o $@ -MD
+
+$(TARGET): $(OBJS)
+	$(CC) -o $@ $(OBJS) $(LIBS)
+	make clean
 
 clean:
-	rm -f  ./*~ ./core $(OBJ)
-
-#DEPENDENCIES- DO NOT DELETE
-my_draw.o : my_draw.h
+	rm -rf  ./*~ obj/
