@@ -4,7 +4,7 @@ color_t::color_t(int r,int g,int b){
 	this->r = r;
 	this->g = g;
 	this->b = b;
-}	
+}
 
 color_t::color_t(){
 	this->r=0;

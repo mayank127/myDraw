@@ -1,4 +1,5 @@
 #include "polygon_t.h"
+#include "line_t.h"
 
 polygon_t::polygon_t(pen_t pen) :object_t(pen){
 	this->isFilled = false;
@@ -59,5 +60,16 @@ list<point_t> polygon_t::addVertex(point_t p){
 }
 
 void polygon_t::draw(){
-
+	line_t tempLine = line_t();
+	tempLine.setPen(this->getPen());
+	for (list<point_t>::const_iterator iterator = vertices.begin(), end = vertices.end();;) {
+    	tempLine.setP1(*iterator);
+    	iterator++;
+    	if(iterator!=end){
+	    	tempLine.setP2(*(iterator));
+	    	tempLine.draw();
+	    }else{
+	    	break;
+	    }
+	}
 }
