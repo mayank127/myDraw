@@ -17,6 +17,7 @@ class canvas_t {
 		//constructor for canvas_t
 		canvas_t(int, int, color_t);
 		canvas_t(drawing_t, int, int, color_t);
+		canvas_t(drawing_t, int, int, color_t, pen_t);
 		canvas_t();
 
 		drawing_t getDrawing() const;			//Returns drawing of pen
@@ -27,7 +28,7 @@ class canvas_t {
 		int setWidth(int);	//sets and returns width  of pen
 		int getHeight() const;		//Returns height  of pen
 		int setHeight(int);	//sets and returns height  of pen
-		pen_t getCurrenPen() const; //Returns current pen of pen
+		pen_t getCurrentPen() const; //Returns current pen of pen
 		pen_t setCurrentPen(pen_t); //sets and returns current pen
 
 		void clear();	//clears canvas
