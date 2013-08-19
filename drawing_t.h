@@ -1,3 +1,6 @@
+#ifndef DRAWING_T_H
+#define DRAWING_T_H
+
 #include "object_t.h"
 #include "line_t.h"
 #include "point_t.h"
@@ -7,8 +10,7 @@
 #include <list>
 using namespace std;
 
-#ifndef DRAWING_T_H
-#define DRAWING_T_H
+
 //Class for drawing object
 class drawing_t {
 	list<object_t> objects;

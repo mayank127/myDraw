@@ -1,8 +1,9 @@
+#ifndef LINE_T_H
+#define LINE_T_H
+
 #include "object_t.h"
 #include "point_t.h"
 
-#ifndef LINE_T_H
-#define LINE_T_H
 //Class for line object
 class line_t : public object_t{
 	point_t p1;

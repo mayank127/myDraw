@@ -1,9 +1,10 @@
+#ifndef FILL_T_H
+#define FILL_T_H
+
 #include "object_t.h"
 #include "pen_t.h"
 #include "point_t.h"
 
-#ifndef FILL_T_H
-#define FILL_T_H
 //Class for fill object
 class fill_t : public object_t{
 	pen_t pen1, pen2;

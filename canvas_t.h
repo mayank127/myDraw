@@ -1,9 +1,10 @@
+#ifndef CANVAS_T_H
+#define CANVAS_T_H
+
 #include "drawing_t.h"
 #include "pen_t.h"
 #include "color_t.h"
 
-#ifndef CANVAS_T_H
-#define CANVAS_T_H
 //Class for canvas object
 class canvas_t {
 	drawing_t drawing;

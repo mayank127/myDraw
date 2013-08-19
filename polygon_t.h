@@ -1,11 +1,12 @@
+#ifndef POLYGON_T_H
+#define POLYGON_T_H
+
 #include <list>
 using namespace std;
 #include "object_t.h"
 #include "point_t.h"
 #include "fill_t.h"
 
-#ifndef POLYGON_T_H
-#define POLYGON_T_H
 //Class for polygon object
 class polygon_t : public object_t{
 	list<point_t> vertices;

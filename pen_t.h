@@ -1,7 +1,8 @@
-#include "color_t.h"
-
 #ifndef PEN_T_H
 #define PEN_T_H
+
+#include "color_t.h"
+
 //class for pen object
 class pen_t {
 	int size;

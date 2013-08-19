@@ -1,8 +1,9 @@
+#ifndef POINT_T_H
+#define POINT_T_H
+
 #include "object_t.h"
 #include "pen_t.h"
 
-#ifndef POINT_T_H
-#define POINT_T_H
 //Class for point object
 class point_t : public object_t{
 	int x;
