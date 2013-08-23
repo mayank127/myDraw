@@ -5,6 +5,11 @@ point_t::point_t(int x, int y,pen_t pen) :object_t(pen){
 	this->y = y;
 }
 
+point_t::point_t(int x, int y) :object_t(pen){
+	this->x = x;
+	this->y = y;
+}
+
 point_t::point_t() :object_t(){
 	this->x = 0;
 	this->y = 0;

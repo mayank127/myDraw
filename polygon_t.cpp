@@ -2,29 +2,20 @@
 #include "line_t.h"
 
 polygon_t::polygon_t(pen_t pen) :object_t(pen){
-	this->isFilled = false;
-	this->fill = fill_t();
+
 }
 
 polygon_t::polygon_t(list<point_t> vertices,pen_t pen) :object_t(pen){
 	this->vertices = vertices;
-	this->isFilled = false;
-	this->fill = fill_t();
 }
 
-polygon_t::polygon_t(pen_t pen,bool isFilled,fill_t fill) :object_t(pen){
-	this->isFilled = isFilled;
-	this->fill = fill;
-}
 
-polygon_t::polygon_t(list<point_t> vertices,pen_t pen,bool isFilled,fill_t fill) :object_t(pen){
-	this->vertices = vertices;
-	this->isFilled = isFilled;
-	this->fill = fill;
+polygon_t::polygon_t(const polygon_t& polygon) :object_t(polygon.pen){
+	this->vertices = polygon.vertices;
 }
 
 polygon_t::polygon_t() :object_t(){
-	this->fill = fill_t();
+
 }
 
 list<point_t> polygon_t::getVertices() const{
@@ -34,24 +25,6 @@ list<point_t> polygon_t::getVertices() const{
 list<point_t> polygon_t::setVertices(list<point_t>){
 	this->vertices = vertices;
 	return vertices;
-}
-
-bool polygon_t::getIsFilled() const{
-	return isFilled;
-}
-
-bool polygon_t::setIsFilled(bool isFilled){
-	this->isFilled = isFilled;
-	return isFilled;
-}
-
-fill_t polygon_t::getFill() const{
-	return fill;
-}
-
-fill_t polygon_t::setFill(fill_t fill){
-	this->fill = fill;
-	return fill;
 }
 
 list<point_t> polygon_t::addVertex(point_t p){
