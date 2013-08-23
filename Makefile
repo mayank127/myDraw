@@ -7,7 +7,7 @@ GL_LIBS=-L$(GL_LIB_DIR) -lglut -lGLU -lGL
 
 CPPFLAGS = -Wall
 
-.PHONY:clean
+.PHONY:clean all clean
 
 LIBS = $(GL_LIBS)
 

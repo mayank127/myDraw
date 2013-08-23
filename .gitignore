@@ -21,6 +21,7 @@
 
 #compiled binary file
 my_draw
+input
 
 #obj directory
 obj/

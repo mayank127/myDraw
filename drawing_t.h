@@ -21,10 +21,10 @@ class drawing_t {
 
 		list<object_t*> getObjects() const;		//returns list of objects
 		list<object_t*> setObjects(list<object_t*>);	//sets list of objects
-		list<object_t*> addObject(line_t&);		//adds a line to list
-		list<object_t*> addObject(point_t&);		//adds a point to list
-		list<object_t*> addObject(polygon_t&);		//adds a polygon to list
-		list<object_t*> addObject(fill_t&);		//adds a fill to list
+		list<object_t*> addObject(line_t);		//adds a line to list
+		list<object_t*> addObject(point_t);		//adds a point to list
+		list<object_t*> addObject(polygon_t);		//adds a polygon to list
+		list<object_t*> addObject(fill_t);		//adds a fill to list
 		void emptyObjectList();						//empties the list
 
 		void draw();	//calls draw of all objects
