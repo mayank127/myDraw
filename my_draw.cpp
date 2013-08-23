@@ -38,7 +38,6 @@ void ReshapeGL(int w, int h){
 GLvoid DisplayGL(){
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT);
-	canvas.getDrawing().draw();
 	pen_t tempPen = pen_t(20,color_t(255,255,255),false);
 	polygon_t tempPoly = polygon_t(tempPen);
 	tempPoly.addVertex(point_t(400,0,tempPen));
@@ -48,6 +47,7 @@ GLvoid DisplayGL(){
 	tempPoly.addVertex(point_t(400,0,tempPen));
 
 	tempPoly.draw();
+	canvas.getDrawing().draw();
 	glFlush();
 }
 
@@ -73,13 +73,13 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 			cin>>r>>g>>b;
 			canvas = canvas_t(w,h,color_t(r,g,b));
 			pen_t tempPen = pen_t(20,color_t(r,g,b),false);
-			polygon_t* canvasBoundary = new polygon_t(tempPen);
-			canvasBoundary->addVertex(point_t(0,0,tempPen));
-			canvasBoundary->addVertex(point_t(w,0,tempPen));
-			canvasBoundary->addVertex(point_t(w,h,tempPen));
-			canvasBoundary->addVertex(point_t(0,h,tempPen));
-			canvasBoundary->addVertex(point_t(0,0,tempPen));
-			canvas.getDrawing().addObject(canvasBoundary);
+			polygon_t canvasBoundary = polygon_t(tempPen);
+			canvasBoundary.addVertex(point_t(0,0,tempPen));
+			canvasBoundary.addVertex(point_t(w,0,tempPen));
+			canvasBoundary.addVertex(point_t(w,h,tempPen));
+			canvasBoundary.addVertex(point_t(0,h,tempPen));
+			canvasBoundary.addVertex(point_t(0,0,tempPen));
+			canvas.drawing.addObject(canvasBoundary);
 			glutPostRedisplay();
 			break;
 		}

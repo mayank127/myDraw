@@ -14,6 +14,7 @@ class fill_t : public object_t{
 		//constructor for fill class
 		fill_t(pen_t,point_t);	//directly square fill pen1=pen2
 		fill_t(pen_t,pen_t,bool,point_t);
+		fill_t(const fill_t&);
 		fill_t();		//fillType,pen= 0,pen_t()
 
 		pen_t getPen() const;			//Returns pen1 of fill

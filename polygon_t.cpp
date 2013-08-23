@@ -23,6 +23,12 @@ polygon_t::polygon_t(list<point_t> vertices,pen_t pen,bool isFilled,fill_t fill)
 	this->fill = fill;
 }
 
+polygon_t::polygon_t(const polygon_t& polygon) :object_t(polygon.pen){
+	this->vertices = polygon.vertices;
+	this->isFilled = polygon.isFilled;
+	this->fill = polygon.fill;
+}
+
 polygon_t::polygon_t() :object_t(){
 	this->fill = fill_t();
 }

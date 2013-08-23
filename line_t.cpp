@@ -6,6 +6,10 @@ line_t::line_t(point_t p1,point_t p2, pen_t pen) :object_t(pen){
 	this->p1 = p1;
 	this->p2 = p2;
 }
+line_t::line_t(const line_t& line) :object_t(line.pen){
+	this->p1 = line.p1;
+	this->p2 = line.p2;
+}
 
 line_t::line_t() :object_t(){
 	p1 = point_t();

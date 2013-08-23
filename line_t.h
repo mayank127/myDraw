@@ -12,6 +12,7 @@ class line_t : public object_t{
 	public:
 		//constructor for line class
 		line_t(point_t,point_t,pen_t);
+		line_t(const line_t&);
 		line_t();		//p1,p2,pen= point_t(),point_t(),pen_t()
 
 		point_t getP1() const;			//Returns P1 of line
