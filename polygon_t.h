@@ -13,6 +13,9 @@ class polygon_t : public object_t{
 		//constructor for polygon class
 		polygon_t(pen_t);	//empty vertices and pen only with no fill
 		polygon_t(list<point_t>,pen_t); 	//manually putting a list of vertices with no fill
+		polygon_t(pen_t,bool,fill_t);		//constructor with fill information
+		polygon_t(list<point_t>,pen_t,bool,fill_t);
+		polygon_t(const polygon_t&);
 		polygon_t();		//vertices,pen= empty,pen_t()
 
 		list<point_t> getVertices() const;			//Returns vertices of polygon

@@ -7,7 +7,6 @@
 
 //Class for canvas object
 class canvas_t {
-	drawing_t drawing;
 	pen_t currentPen;
 	int width;
 	int height;
@@ -15,6 +14,7 @@ class canvas_t {
 
 	public:
 		//constructor for canvas_t
+		drawing_t drawing;
 		canvas_t(int, int, color_t);
 		canvas_t(drawing_t, int, int, color_t);
 		canvas_t(drawing_t, int, int, color_t, pen_t);

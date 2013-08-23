@@ -10,6 +10,12 @@ polygon_t::polygon_t(list<point_t> vertices,pen_t pen) :object_t(pen){
 }
 
 
+polygon_t::polygon_t(const polygon_t& polygon) :object_t(polygon.pen){
+	this->vertices = polygon.vertices;
+	this->isFilled = polygon.isFilled;
+	this->fill = polygon.fill;
+}
+
 polygon_t::polygon_t() :object_t(){
 
 }
