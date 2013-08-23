@@ -10,6 +10,7 @@ class point_t : public object_t{
 	int y;
 	public:
 		//constructor for point class
+		point_t(int,int);
 		point_t(int,int,pen_t);
 		point_t();		//x,y,pen= 0,0,pen_t()
 
