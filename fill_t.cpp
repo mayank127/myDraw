@@ -67,4 +67,35 @@ point_t fill_t::setPoint(point_t point){
 
 void fill_t::draw(vector<vector<bool> >& twoDArray){
 	//draw method for fill
+	pen1.setSize(1);
+	pen2.setSize(1);
+	fillHelper(point.getX(),point.getY(),twoDArray);
+}
+
+
+void fill_t::fillHelper(int x,int y,vector<vector<bool> >& twoDArray){
+	int w = twoDArray.size();
+	int h = twoDArray[0].size();
+	if(x>w || x<0 || y>h ||y<0) return;
+
+	if(twoDArray[x][y]==false){
+		
+		point_t tempPoint = point_t();
+		if(fillType = 0)  tempPoint.setPen(this->pen1);
+		else{
+			if(x%8<=3 && y%8<=3 || x%8>=4 && y%8>=4) tempPoint.setPen(this->pen1);
+			else tempPoint.setPen(this->pen2);
+		}
+		tempPoint.setX(x);
+		tempPoint.setY(y);
+
+		tempPoint.draw(twoDArray);
+	
+		for(int i=-1;i<=1;i++){
+			for(int j=-1;j<=1;j++){
+				if(i==0 && j==0) continue;
+				else fillHelper(x+i,y+j,twoDArray);
+			}
+		}
+	}
 }
