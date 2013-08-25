@@ -13,7 +13,7 @@ pen_t object_t::getPen() const{
 }
 
 pen_t object_t::setPen(pen_t pen){
-	this->pen = pen;
+	this->pen = pen_t(pen);
 	return pen;
 }
 void object_t::draw(vector<vector<bool> >& twoDArray){

@@ -21,6 +21,7 @@ class polygon_t : public object_t{
 		list<point_t> setVertices(list<point_t>);		//sets and Returns new vertices of polygon
 
 		list<point_t> addVertex(point_t);			//adds a new point in vertices list and return vertex list
+		list<point_t> done();				//completes the list by adding last vertex
 		void draw(vector<vector<bool> >&);	//draw function override to draw a polygon
 };
 #endif

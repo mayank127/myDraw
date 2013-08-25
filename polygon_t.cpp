@@ -33,6 +33,11 @@ list<point_t> polygon_t::addVertex(point_t p){
 	return vertices;
 }
 
+list<point_t> polygon_t::done(){
+	this->vertices.push_back(this->vertices.front());
+	return vertices;
+}
+
 void polygon_t::draw(vector<vector<bool> >& twoDArray){
 	line_t tempLine = line_t();
 	tempLine.setPen(this->getPen());

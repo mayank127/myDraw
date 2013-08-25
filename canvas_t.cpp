@@ -59,7 +59,7 @@ int canvas_t::setHeight(int height){
 pen_t canvas_t::getCurrentPen() const{
 	return currentPen;
 }
-pen_t canvas_t::setCurrentPen(pen_t){
+pen_t canvas_t::setCurrentPen(pen_t currentPen){
 	this->currentPen = currentPen;
 	return currentPen;
 }

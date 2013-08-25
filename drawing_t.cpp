@@ -17,7 +17,7 @@ list<object_t*> drawing_t::setObjects(list<object_t*> objects){
 	return objects;
 }
 list<object_t*> drawing_t::addObject(line_t line){
-	objects.push_back(&line);
+	objects.push_back(new line_t(line));
 	return objects;
 }
 list<object_t*> drawing_t::addObject(point_t point){

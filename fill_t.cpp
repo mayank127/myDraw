@@ -32,22 +32,22 @@ pen_t fill_t::getPen() const{
 	return pen1;
 }
 pen_t fill_t::setPen(pen_t pen){
-	this->pen1 = pen;
-	this->pen2 = pen;
+	this->pen1 = pen_t(pen);
+	this->pen2 = pen_t(pen);
 	return pen;
 }
 pen_t fill_t::getPen1() const{
 	return pen1;
 }
 pen_t fill_t::setPen1(pen_t pen){
-	this->pen1 = pen;
+	this->pen1 = pen_t(pen);
 	return pen;
 }
 pen_t fill_t::getPen2() const{
 	return pen2;
 }
 pen_t fill_t::setPen2(pen_t pen){
-	this->pen2 = pen;
+	this->pen2 = pen_t(pen);
 	return pen;
 }
 bool fill_t::getFillType() const{

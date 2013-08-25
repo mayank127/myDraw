@@ -11,6 +11,7 @@ class pen_t {
 	public:
 		//Constructors for pen class
 		pen_t(int, color_t, bool);
+		pen_t(const pen_t&);
 		pen_t();			//size,color,eraseMode = 0,color_t(), false
 
 		int getSize() const;			//Returns size of pen

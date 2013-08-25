@@ -42,23 +42,20 @@ int point_t::setY(int y){
 
 void point_t::draw(vector<vector<bool> >& twoDArray) {
 	glColor3f((float)pen.getColor().r/255,(float)pen.getColor().g/255,(float)pen.getColor().b/255);
-	//glPointSize(pen.getSize());
 	glBegin(GL_POINTS);
-	
+
 	int ps = pen.getSize();
 	int w = twoDArray.size();
-	cout<<w;
 	if(w<=0) return ;
 	int h = twoDArray[0].size();
 	for(int i=x-ps/2 ; i<=x+ps/2 ; i++){
-		if(i>w) break;
+		if(i>=w) break;
 		for(int j=y-ps/2 ; j<=y+ps/2 ; j++){
-			if(j>h) break;
+			if(j>=h) break;
 			if(i>=0 && j>=0){
-				if(pen.getEraseMode())	twoDArray[i][j] = true;
+				if(!pen.getEraseMode())	twoDArray[i][j] = true;
 				else	twoDArray[i][j] = false;
 				glVertex2f(i,j);
-				cout<<i<<","<<j<<endl;
 			}
 		}
 	}

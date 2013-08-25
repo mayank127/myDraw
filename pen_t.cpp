@@ -5,7 +5,11 @@ pen_t::pen_t(int size,color_t color,bool eraseMode){
 	this->color = color;
 	this->eraseMode = eraseMode;
 }
-
+pen_t::pen_t(const pen_t& pen){
+	this->size = pen.size;
+	this->color = pen.color;
+	this->eraseMode = pen.eraseMode;
+}
 pen_t::pen_t(){
 	this->size = 0;
 	this->color = color_t();

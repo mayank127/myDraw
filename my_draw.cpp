@@ -17,17 +17,14 @@ using namespace std;
 int win_width = 500;
 int win_height = 500;
 canvas_t canvas;
+int mode=0,linepoints=0,polypoints=0;
+line_t tempLine;
+polygon_t tempPoly;
+fill_t tempFill;
 //GL reshape callback
 void ReshapeGL(int w, int h){
-	if(h == 0) h = 1;
-
-	glMatrixMode( GL_PROJECTION );
-	glLoadIdentity();
-	gluOrtho2D( 0.0, (GLdouble)w, 0.0, (GLdouble)h);
-
 	win_width = w;
 	win_height = h;
-
 	glutPostRedisplay();
 }
 
@@ -37,8 +34,8 @@ void ReshapeGL(int w, int h){
 GLvoid DisplayGL(){
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT);
-	
-	canvas.getDrawing().draw(canvas.twoDArray);
+
+	canvas.drawing.draw(canvas.twoDArray);
 	glFlush();
 }
 
@@ -63,24 +60,30 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 			cout<<"Enter RGB for background (0 - 255): ";
 			cin>>r>>g>>b;
 
+			glMatrixMode( GL_PROJECTION );
+			glLoadIdentity();
+			gluOrtho2D( 0.0, (GLdouble)w, 0.0, (GLdouble)h);
 			glViewport( 0, 0, w, h );
 
-			canvas = canvas_t(w,h,color_t(r,g,b));
-			pen_t tempPen = pen_t(20,color_t(255,255,255),false);
-			polygon_t tempPoly = polygon_t(tempPen);
-			tempPoly.addVertex(point_t(400,0,tempPen));
-			tempPoly.addVertex(point_t(400,400,tempPen));
-			tempPoly.addVertex(point_t(0,400,tempPen));
-			tempPoly.addVertex(point_t(0,0,tempPen));
-			tempPoly.addVertex(point_t(400,0,tempPen));
-			//tempPoly.draw(canvas.twoDArray);
+			canvas = canvas_t(drawing_t(), w,h,color_t(r,g,b), pen_t(1, color_t(50,200,0), false));
+			cout<<"size"<<canvas.getCurrentPen().getSize()<<endl;
+			tempPoly = polygon_t(canvas.getCurrentPen());
+			tempPoly.addVertex(point_t(w,0));
+			tempPoly.addVertex(point_t(w,h));
+			tempPoly.addVertex(point_t(0,h));
+			tempPoly.addVertex(point_t(0,0));
+			tempPoly.addVertex(point_t(w,0));
 			canvas.drawing.addObject(tempPoly);
-			cout<<"size : "<<canvas.twoDArray.size()<<endl;
 			glutPostRedisplay();
 			break;
 		}
 		case 'd':
 		case 'D'://Initialize a new drawing
+			tempLine = line_t();
+			tempPoly = polygon_t();
+			tempFill = fill_t();
+			linepoints = 0;
+			polypoints = 0;
 			canvas.setDrawing(drawing_t());
 			glutPostRedisplay();
 			break;
@@ -96,16 +99,32 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 			break;
 
 		case '1'://Toggle Line drawing mode
-
+			if(mode==0)
+				mode = 1;
+			else if(mode==1)
+				mode = 0;
 			glutPostRedisplay();
 			break;
 
 		case '2'://Toggle Polygon drawing mode
+			if(mode==0)
+				mode = 2;
+			else if(mode==2){
+				mode = 0;
+				tempPoly.done();
+				canvas.drawing.addObject(tempPoly);
+				polypoints = 0;
+			}
 			glutPostRedisplay();
 			break;
 
 		case 'f':
 		case 'F'://Toggle Fill Mode
+			if(mode==0)
+				mode = 3;
+			else if(mode==3)
+				mode=0;
+
 			glutPostRedisplay();
 			break;
 
@@ -116,8 +135,42 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 		default:
 			break;
 	}
+	cout<<"Mode : "<<mode<<endl;
 }
 
+
+void mouse(int button, int state, int x, int y)
+{
+	if (state == GLUT_DOWN)	{
+		if (button == GLUT_LEFT_BUTTON || button == GLUT_RIGHT_BUTTON) {
+			if(mode==1){
+				if ((linepoints % 2 )== 0) {
+					linepoints = 0;
+					tempLine = line_t(point_t(x,win_height-y), point_t(), canvas.getCurrentPen());
+					linepoints++;
+				}
+				else if ((linepoints % 2) == 1) {
+					tempLine.setP2(point_t(x,win_height - y));
+					canvas.drawing.addObject(tempLine);
+					linepoints++;
+				}
+				glutPostRedisplay();
+			}
+			if(mode==2){
+				if (polypoints == 0) {
+					polypoints++;
+					tempPoly = polygon_t(canvas.getCurrentPen());
+					tempPoly.addVertex(point_t(x,win_height-y));
+				}
+				else{
+					tempPoly.addVertex(point_t(x,win_height-y));
+					polypoints++;
+				}
+			}
+		}
+	}
+
+}
 // The main rendering function
 GLvoid RenderGL(int argc, char** argv){
 	//Initialize GLUT
@@ -135,7 +188,7 @@ GLvoid RenderGL(int argc, char** argv){
 	glutDisplayFunc(&DisplayGL);
 	glutReshapeFunc(&ReshapeGL);
 	glutKeyboardFunc(&KeyPressedGL);
-
+	glutMouseFunc(mouse);
 	//disabling depth
 	glDisable(GL_DEPTH_TEST);
 	//Start the GLUT event handling loop
