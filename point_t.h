@@ -4,6 +4,9 @@
 #include "object_t.h"
 #include "pen_t.h"
 
+#include <vector>
+using namespace std;
+
 //Class for point object
 class point_t : public object_t{
 	int x;
@@ -20,6 +23,6 @@ class point_t : public object_t{
 		int getY() const;			//Returns Y of point
 		int setY(int);		//sets and Returns new Y of point
 
-		void draw();	//draw function override to draw a point
+		void draw(vector<vector<bool> >&);	//draw function override to draw a point
 };
 #endif

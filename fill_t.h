@@ -5,6 +5,8 @@
 #include "pen_t.h"
 #include "point_t.h"
 
+#include <vector>
+using namespace std;
 //Class for fill object
 class fill_t : public object_t{
 	pen_t pen1, pen2;
@@ -28,6 +30,6 @@ class fill_t : public object_t{
 		point_t getPoint() const;		// returns point of fill
 		point_t setPoint(point_t);		//sets and returns point of fill
 
-		void draw();	//draw function override to draw a fill
+		void draw(vector<vector<bool> >&);	//draw function override to draw a fill
 };
 #endif

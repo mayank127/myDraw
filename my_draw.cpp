@@ -37,15 +37,8 @@ void ReshapeGL(int w, int h){
 GLvoid DisplayGL(){
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT);
-	pen_t tempPen = pen_t(20,color_t(255,255,255),false);
-	polygon_t tempPoly = polygon_t(tempPen);
-	tempPoly.addVertex(point_t(400,0,tempPen));
-	tempPoly.addVertex(point_t(400,400,tempPen));
-	tempPoly.addVertex(point_t(0,400,tempPen));
-	tempPoly.addVertex(point_t(0,0,tempPen));
-	tempPoly.addVertex(point_t(400,0,tempPen));
-	tempPoly.draw();
-	canvas.getDrawing().draw();
+	
+	canvas.getDrawing().draw(canvas.twoDArray);
 	glFlush();
 }
 
@@ -73,6 +66,16 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 			glViewport( 0, 0, w, h );
 
 			canvas = canvas_t(w,h,color_t(r,g,b));
+			pen_t tempPen = pen_t(20,color_t(255,255,255),false);
+			polygon_t tempPoly = polygon_t(tempPen);
+			tempPoly.addVertex(point_t(400,0,tempPen));
+			tempPoly.addVertex(point_t(400,400,tempPen));
+			tempPoly.addVertex(point_t(0,400,tempPen));
+			tempPoly.addVertex(point_t(0,0,tempPen));
+			tempPoly.addVertex(point_t(400,0,tempPen));
+			//tempPoly.draw(canvas.twoDArray);
+			canvas.drawing.addObject(tempPoly);
+			cout<<"size : "<<canvas.twoDArray.size()<<endl;
 			glutPostRedisplay();
 			break;
 		}

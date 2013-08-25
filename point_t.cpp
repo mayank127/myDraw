@@ -1,12 +1,13 @@
 #include "point_t.h"
 #include <GL/glut.h>
+#include <iostream>
 
 point_t::point_t(int x, int y,pen_t pen) :object_t(pen){
 	this->x = x;
 	this->y = y;
 }
 
-point_t::point_t(int x, int y) :object_t(pen){
+point_t::point_t(int x, int y) :object_t(){
 	this->x = x;
 	this->y = y;
 }
@@ -39,10 +40,27 @@ int point_t::setY(int y){
 	return y;
 }
 
-void point_t::draw() {
+void point_t::draw(vector<vector<bool> >& twoDArray) {
 	glColor3f((float)pen.getColor().r/255,(float)pen.getColor().g/255,(float)pen.getColor().b/255);
-	glPointSize(pen.getSize());
+	//glPointSize(pen.getSize());
 	glBegin(GL_POINTS);
-	glVertex2f(x,y);
+	
+	int ps = pen.getSize();
+	int w = twoDArray.size();
+	cout<<w;
+	if(w<=0) return ;
+	int h = twoDArray[0].size();
+	for(int i=x-ps/2 ; i<=x+ps/2 ; i++){
+		if(i>w) break;
+		for(int j=y-ps/2 ; j<=y+ps/2 ; j++){
+			if(j>h) break;
+			if(i>=0 && j>=0){
+				if(pen.getEraseMode())	twoDArray[i][j] = true;
+				else	twoDArray[i][j] = false;
+				glVertex2f(i,j);
+				cout<<i<<","<<j<<endl;
+			}
+		}
+	}
 	glEnd();
 }

@@ -4,6 +4,9 @@
 #include "object_t.h"
 #include "point_t.h"
 
+#include <vector>
+using namespace std;
+
 //Class for line object
 class line_t : public object_t{
 	point_t p1;
@@ -20,6 +23,6 @@ class line_t : public object_t{
 		point_t getP2() const;			//Returns Y of line
 		point_t setP2(point_t);		//sets and Returns new Y of line
 
-		void draw();	//draw function override to draw a line
+		void draw(vector<vector<bool> >&);	//draw function override to draw a line
 };
 #endif

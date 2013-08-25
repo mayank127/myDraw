@@ -65,6 +65,6 @@ point_t fill_t::setPoint(point_t point){
 	return point;
 }
 
-void fill_t::draw(){
+void fill_t::draw(vector<vector<bool> >& twoDArray){
 	//draw method for fill
 }

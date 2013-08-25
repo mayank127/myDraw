@@ -7,6 +7,7 @@
 #include "polygon_t.h"
 #include "fill_t.h"
 
+#include <vector>
 #include <list>
 using namespace std;
 
@@ -27,6 +28,6 @@ class drawing_t {
 		list<object_t*> addObject(fill_t);		//adds a fill to list
 		void emptyObjectList();						//empties the list
 
-		void draw();	//calls draw of all objects
+		void draw(vector<vector<bool> >&);	//calls draw of all objects
 };
 #endif

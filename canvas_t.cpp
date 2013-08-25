@@ -1,26 +1,26 @@
 #include "canvas_t.h"
 
-canvas_t::canvas_t(int width, int height, color_t bgColor){
+canvas_t::canvas_t(int width, int height, color_t bgColor) :twoDArray(width, vector<bool>(height, false)) {
 	this->drawing = drawing_t();
 	this->width = width;
 	this->height = height;
 	this->bgColor = bgColor;
 }
-canvas_t::canvas_t(drawing_t drawing, int width, int height, color_t bgColor){
+canvas_t::canvas_t(drawing_t drawing, int width, int height, color_t bgColor) :twoDArray(width, vector<bool>(height, false)) {
 	this->drawing = drawing;
 	this->width = width;
 	this->height = height;
 	this->bgColor = bgColor;
 	this->currentPen = pen_t();
 }
-canvas_t::canvas_t(drawing_t drawing, int width, int height, color_t bgColor, pen_t currentPen){
+canvas_t::canvas_t(drawing_t drawing, int width, int height, color_t bgColor, pen_t currentPen) :twoDArray(width, vector<bool>(height, false)) {
 	this->drawing = drawing;
 	this->width = width;
 	this->height = height;
 	this->bgColor = bgColor;
 	this->currentPen = currentPen;
 }
-canvas_t::canvas_t(){
+canvas_t::canvas_t():twoDArray(0, vector<bool>(0, false)){
 	this->drawing = drawing_t();
 	this->width = 0;
 	this->height = 0;

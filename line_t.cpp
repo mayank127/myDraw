@@ -5,10 +5,14 @@ using namespace std;
 line_t::line_t(point_t p1,point_t p2, pen_t pen) :object_t(pen){
 	this->p1 = p1;
 	this->p2 = p2;
+	this->p1.setPen(pen);
+	this->p2.setPen(pen);
 }
 line_t::line_t(const line_t& line) :object_t(line.pen){
 	this->p1 = line.p1;
 	this->p2 = line.p2;
+	this->p1.setPen(line.pen);
+	this->p2.setPen(line.pen);
 }
 
 line_t::line_t() :object_t(){
@@ -40,7 +44,7 @@ void swap (int &x, int &y)
   x = y; y = temp;
 }
 
-void line_t::draw(){
+void line_t::draw(vector<vector<bool> >& twoDArray){
 	int x0 = p1.getX(), x1 = p2.getX(), y0 = p1.getY(), y1 = p2.getY();
 	bool steep = abs(y1 - y0) > abs(x1 - x0);
 	if (steep){
@@ -74,7 +78,7 @@ void line_t::draw(){
 			tempPoint.setX(x);
 			tempPoint.setY(y);
 		}
-		tempPoint.draw();
+		tempPoint.draw(twoDArray);
 		error = error + deltaerr;
 		if (error >= 0.5){
 			y = y + ystep;

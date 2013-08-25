@@ -38,9 +38,9 @@ void drawing_t::emptyObjectList(){
 	objects.clear();
 }
 
-void drawing_t::draw(){
+void drawing_t::draw(vector<vector<bool> >& twoDArray){
 	cout<<objects.size()<<endl;
 	for (list<object_t*>::iterator iterator = objects.begin(), end = objects.end(); iterator != end; ++iterator) {
-    	(*iterator)->draw();
+    	(*iterator)->draw(twoDArray);
 	}
 }

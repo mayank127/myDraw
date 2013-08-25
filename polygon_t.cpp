@@ -28,11 +28,12 @@ list<point_t> polygon_t::setVertices(list<point_t>){
 }
 
 list<point_t> polygon_t::addVertex(point_t p){
+	p.setPen(this->pen);
 	vertices.push_back(p);
 	return vertices;
 }
 
-void polygon_t::draw(){
+void polygon_t::draw(vector<vector<bool> >& twoDArray){
 	line_t tempLine = line_t();
 	tempLine.setPen(this->getPen());
 	for (list<point_t>::const_iterator iterator = vertices.begin(), end = vertices.end();;) {
@@ -40,7 +41,7 @@ void polygon_t::draw(){
     	iterator++;
     	if(iterator!=end){
 	    	tempLine.setP2(*(iterator));
-	    	tempLine.draw();
+	    	tempLine.draw(twoDArray);
 	    }else{
 	    	break;
 	    }

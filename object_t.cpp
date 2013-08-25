@@ -16,6 +16,6 @@ pen_t object_t::setPen(pen_t pen){
 	this->pen = pen;
 	return pen;
 }
-void object_t::draw(){
+void object_t::draw(vector<vector<bool> >& twoDArray){
 
 }

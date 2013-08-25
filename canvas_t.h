@@ -1,9 +1,11 @@
 #ifndef CANVAS_T_H
 #define CANVAS_T_H
 
+#include <vector>
 #include "drawing_t.h"
 #include "pen_t.h"
 #include "color_t.h"
+using namespace std;
 
 //Class for canvas object
 class canvas_t {
@@ -15,6 +17,7 @@ class canvas_t {
 	public:
 		//constructor for canvas_t
 		drawing_t drawing;
+		vector<vector<bool> >  twoDArray;
 		canvas_t(int, int, color_t);
 		canvas_t(drawing_t, int, int, color_t);
 		canvas_t(drawing_t, int, int, color_t, pen_t);

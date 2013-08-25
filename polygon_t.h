@@ -1,10 +1,11 @@
 #ifndef POLYGON_T_H
 #define POLYGON_T_H
 
-#include <list>
-using namespace std;
 #include "object_t.h"
 #include "point_t.h"
+#include <vector>
+#include <list>
+using namespace std;
 
 //Class for polygon object
 class polygon_t : public object_t{
@@ -20,6 +21,6 @@ class polygon_t : public object_t{
 		list<point_t> setVertices(list<point_t>);		//sets and Returns new vertices of polygon
 
 		list<point_t> addVertex(point_t);			//adds a new point in vertices list and return vertex list
-		void draw();	//draw function override to draw a polygon
+		void draw(vector<vector<bool> >&);	//draw function override to draw a polygon
 };
 #endif
