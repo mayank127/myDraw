@@ -26,8 +26,6 @@ list<object_t*> drawing_t::addObject(point_t point){
 }
 list<object_t*> drawing_t::addObject(polygon_t polygon){
 	objects.push_back(new polygon_t(polygon));
-	cout<<"Drawing Added"<<objects.size()<<endl;
-
 	return objects;
 }
 list<object_t*> drawing_t::addObject(fill_t fill){
@@ -39,7 +37,6 @@ void drawing_t::emptyObjectList(){
 }
 
 void drawing_t::draw(vector<vector<bool> >& twoDArray){
-	cout<<objects.size()<<endl;
 	for (list<object_t*>::iterator iterator = objects.begin(), end = objects.end(); iterator != end; ++iterator) {
     	(*iterator)->draw(twoDArray);
 	}

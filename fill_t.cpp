@@ -1,5 +1,7 @@
 #include "fill_t.h"
-
+#include <iostream>
+#include <queue>
+using namespace std;
 fill_t::fill_t(pen_t pen, point_t point) :object_t(pen){
 	this->pen1 = pen;
 	this->pen2 = pen;
@@ -67,35 +69,44 @@ point_t fill_t::setPoint(point_t point){
 
 void fill_t::draw(vector<vector<bool> >& twoDArray){
 	//draw method for fill
+	int w = twoDArray.size();
+	if(w<=0) return;
+	int h = twoDArray[0].size();
 	pen1.setSize(1);
 	pen2.setSize(1);
-	fillHelper(point.getX(),point.getY(),twoDArray);
-}
 
+	queue<point_t> neighbours;
+	vector<vector<bool> >  isSeen(w, vector<bool>(h, false));
+	int x = point.getX();
+	int y = point.getY();
+	if(x>=w || x<0 || y>=h ||y<0)return;
+	if(twoDArray[x][y]==true) return;
+	neighbours.push(point);
+	while(!neighbours.empty()){
+		point_t p = point_t(neighbours.front());
+		x = p.getX();
+		y = p.getY();
+		if(!twoDArray[x][y] && !isSeen[x][y]){
 
-void fill_t::fillHelper(int x,int y,vector<vector<bool> >& twoDArray){
-	int w = twoDArray.size();
-	int h = twoDArray[0].size();
-	if(x>w || x<0 || y>h ||y<0) return;
-
-	if(twoDArray[x][y]==false){
-		
-		point_t tempPoint = point_t();
-		if(fillType = 0)  tempPoint.setPen(this->pen1);
-		else{
-			if(x%8<=3 && y%8<=3 || x%8>=4 && y%8>=4) tempPoint.setPen(this->pen1);
-			else tempPoint.setPen(this->pen2);
-		}
-		tempPoint.setX(x);
-		tempPoint.setY(y);
-
-		tempPoint.draw(twoDArray);
-	
-		for(int i=-1;i<=1;i++){
-			for(int j=-1;j<=1;j++){
-				if(i==0 && j==0) continue;
-				else fillHelper(x+i,y+j,twoDArray);
+			isSeen[x][y] = true;
+			point_t tempPoint = point_t(x,y);
+			if(fillType)  tempPoint.setPen(this->pen1);
+			else{
+				if((x%8<=3 && y%8<=3) || (x%8>=4 && y%8>=4)) tempPoint.setPen(this->pen1);
+				else tempPoint.setPen(this->pen2);
+			}
+			tempPoint.draw(twoDArray);
+			twoDArray[x][y] = false;
+			for(int i=-1;i<=1;i++){
+				if(x+i>=w || x+i <0) continue;
+				for(int j=-1;j<=1;j++){
+					if(y+j>=h || y+j <0) continue;
+					else if(i==0 && j==0) continue;
+					else if(!twoDArray[x+i][y+j] && !isSeen[x+i][y+j]) neighbours.push(point_t(x+i,y+j));
+				}
 			}
 		}
+		neighbours.pop();
 	}
+
 }

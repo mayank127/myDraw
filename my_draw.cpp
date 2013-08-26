@@ -65,15 +65,17 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 			gluOrtho2D( 0.0, (GLdouble)w, 0.0, (GLdouble)h);
 			glViewport( 0, 0, w, h );
 
-			canvas = canvas_t(drawing_t(), w,h,color_t(r,g,b), pen_t(1, color_t(50,200,0), false));
+			canvas = canvas_t(drawing_t(), w, h, color_t(r,g,b), pen_t(1, color_t(50,200,0), false));
 			cout<<"size"<<canvas.getCurrentPen().getSize()<<endl;
 			tempPoly = polygon_t(canvas.getCurrentPen());
 			tempPoly.addVertex(point_t(w,0));
 			tempPoly.addVertex(point_t(w,h));
 			tempPoly.addVertex(point_t(0,h));
 			tempPoly.addVertex(point_t(0,0));
-			tempPoly.addVertex(point_t(w,0));
+			tempPoly.done();
 			canvas.drawing.addObject(tempPoly);
+			tempFill = fill_t(canvas.getCurrentPen(), point_t(w/2,h/2));
+			canvas.drawing.addObject(tempFill);
 			glutPostRedisplay();
 			break;
 		}

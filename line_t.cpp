@@ -64,12 +64,12 @@ void line_t::draw(vector<vector<bool> >& twoDArray){
 	int ystep;
 	int y = y0;
 
-	if (y0 < y1) ystep = 1; else ystep = -1;
+	if (y0 <= y1) ystep = 1; else ystep = -1;
 
 	point_t tempPoint = point_t();
 	tempPoint.setPen(this->pen);
 
-	for (int x=x0; x < x1; x++){
+	for (int x=x0; x <= x1; x++){
 		if (steep){
 			tempPoint.setX(y);
 			tempPoint.setY(x);

@@ -31,6 +31,5 @@ class fill_t : public object_t{
 		point_t setPoint(point_t);		//sets and returns point of fill
 
 		void draw(vector<vector<bool> >&);	//draw function override to draw a fill
-		void fillHelper(int,int,vector<vector<bool> >&);	//helper function for fill
 };
 #endif
