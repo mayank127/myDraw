@@ -11,7 +11,7 @@ pen_t::pen_t(const pen_t& pen){
 	this->eraseMode = pen.eraseMode;
 }
 pen_t::pen_t(){
-	this->size = 0;
+	this->size = 1;
 	this->color = color_t();
 	this->eraseMode = false;
 }

@@ -90,7 +90,7 @@ void fill_t::draw(vector<vector<bool> >& twoDArray){
 
 			isSeen[x][y] = true;
 			point_t tempPoint = point_t(x,y);
-			if(fillType)  tempPoint.setPen(this->pen1);
+			if(!fillType)  tempPoint.setPen(this->pen1);
 			else{
 				if((x%8<=3 && y%8<=3) || (x%8>=4 && y%8>=4)) tempPoint.setPen(this->pen1);
 				else tempPoint.setPen(this->pen2);
@@ -101,7 +101,7 @@ void fill_t::draw(vector<vector<bool> >& twoDArray){
 				if(x+i>=w || x+i <0) continue;
 				for(int j=-1;j<=1;j++){
 					if(y+j>=h || y+j <0) continue;
-					else if(i==0 && j==0) continue;
+					else if(i==j || i==-1*j) continue;
 					else if(!twoDArray[x+i][y+j] && !isSeen[x+i][y+j]) neighbours.push(point_t(x+i,y+j));
 				}
 			}

@@ -34,8 +34,7 @@ void ReshapeGL(int w, int h){
 GLvoid DisplayGL(){
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT);
-
-	canvas.drawing.draw(canvas.twoDArray);
+	canvas.draw();
 	glFlush();
 }
 
@@ -65,16 +64,16 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 			gluOrtho2D( 0.0, (GLdouble)w, 0.0, (GLdouble)h);
 			glViewport( 0, 0, w, h );
 
-			canvas = canvas_t(drawing_t(), w, h, color_t(r,g,b), pen_t(1, color_t(50,200,0), false));
+			canvas = canvas_t(drawing_t(), w, h, pen_t(1, color_t(r,g,b), false), pen_t(1, color_t(0,0,0), false));
 			cout<<"size"<<canvas.getCurrentPen().getSize()<<endl;
 			tempPoly = polygon_t(canvas.getCurrentPen());
-			tempPoly.addVertex(point_t(w,0));
-			tempPoly.addVertex(point_t(w,h));
-			tempPoly.addVertex(point_t(0,h));
+			tempPoly.addVertex(point_t(w-10,0));
+			tempPoly.addVertex(point_t(w-10,h-10));
+			tempPoly.addVertex(point_t(0,h-10));
 			tempPoly.addVertex(point_t(0,0));
 			tempPoly.done();
 			canvas.drawing.addObject(tempPoly);
-			tempFill = fill_t(canvas.getCurrentPen(), point_t(w/2,h/2));
+			tempFill = fill_t(canvas.getBGColor(), point_t(w/2,h/2));
 			canvas.drawing.addObject(tempFill);
 			glutPostRedisplay();
 			break;
@@ -168,6 +167,11 @@ void mouse(int button, int state, int x, int y)
 					tempPoly.addVertex(point_t(x,win_height-y));
 					polypoints++;
 				}
+			}
+			if(mode==3){
+				tempFill = fill_t(canvas.getCurrentPen(), canvas.getBGColor(), true, point_t(x,win_height-y));
+				canvas.drawing.addObject(tempFill);
+				glutPostRedisplay();
 			}
 		}
 	}

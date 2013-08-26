@@ -1,19 +1,19 @@
 #include "canvas_t.h"
 
-canvas_t::canvas_t(int width, int height, color_t bgColor) :twoDArray(width, vector<bool>(height, false)) {
+canvas_t::canvas_t(int width, int height, pen_t bgColor) :twoDArray(width, vector<bool>(height, false)) {
 	this->drawing = drawing_t();
 	this->width = width;
 	this->height = height;
 	this->bgColor = bgColor;
 }
-canvas_t::canvas_t(drawing_t drawing, int width, int height, color_t bgColor) :twoDArray(width, vector<bool>(height, false)) {
+canvas_t::canvas_t(drawing_t drawing, int width, int height, pen_t bgColor) :twoDArray(width, vector<bool>(height, false)) {
 	this->drawing = drawing;
 	this->width = width;
 	this->height = height;
 	this->bgColor = bgColor;
 	this->currentPen = pen_t();
 }
-canvas_t::canvas_t(drawing_t drawing, int width, int height, color_t bgColor, pen_t currentPen) :twoDArray(width, vector<bool>(height, false)) {
+canvas_t::canvas_t(drawing_t drawing, int width, int height, pen_t bgColor, pen_t currentPen) :twoDArray(width, vector<bool>(height, false)) {
 	this->drawing = drawing;
 	this->width = width;
 	this->height = height;
@@ -24,7 +24,7 @@ canvas_t::canvas_t():twoDArray(0, vector<bool>(0, false)){
 	this->drawing = drawing_t();
 	this->width = 0;
 	this->height = 0;
-	this->bgColor = color_t();
+	this->bgColor = pen_t();
 	this->currentPen = pen_t();
 }
 
@@ -35,10 +35,10 @@ drawing_t canvas_t::setDrawing(drawing_t drawing){
 	this->drawing = drawing;
 	return drawing;
 }
-color_t canvas_t::getBGColor() const{
+pen_t canvas_t::getBGColor() const{
 	return bgColor;
 }
-color_t canvas_t::setBGColor(color_t bgColor){
+pen_t canvas_t::setBGColor(pen_t bgColor){
 	this->bgColor = bgColor;
 	return bgColor;
 }
@@ -66,4 +66,11 @@ pen_t canvas_t::setCurrentPen(pen_t currentPen){
 
 void canvas_t::clear(){
 	drawing.emptyObjectList();
+}
+
+void canvas_t::draw(){
+	for(int i=0;i<width;i++)
+		for(int j=0;j<height;j++)
+			twoDArray[i][j]=false;
+	drawing.draw(twoDArray);
 }
