@@ -10,5 +10,5 @@ GLvoid ReshapeGL (GLsizei Width, GLsizei Height);
 GLvoid DisplayGL();
 GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y);
 GLvoid RenderGL(int argc, char** argv);
-
+void mouse(int button, int state, int x, int y);
 #endif

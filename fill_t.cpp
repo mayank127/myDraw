@@ -9,17 +9,14 @@ fill_t::fill_t(pen_t pen, point_t point) :object_t(pen){
 	this->fillType = 0;
 }
 fill_t::fill_t(const fill_t& fill) :object_t(fill.pen){
-	this->pen1 = fill.pen;
-	this->pen2 = fill.pen;
+	this->pen1 = fill.pen1;
+	this->pen2 = fill.pen2;
 	this->point = fill.point;
 	this->fillType = fill.fillType;
 }
-fill_t::fill_t(pen_t pen1, pen_t pen2,bool fillType, point_t point) :object_t(pen){
+fill_t::fill_t(pen_t pen1, pen_t pen2, bool fillType, point_t point) :object_t(pen1){
 	this->pen1 = pen1;
-	if(fillType)
-		this->pen2 = pen2;
-	else
-		this->pen2 = pen1;
+	this->pen2 = pen2;
 	this->point = point;
 	this->fillType = fillType;
 }
@@ -89,11 +86,11 @@ void fill_t::draw(vector<vector<bool> >& twoDArray){
 		if(!twoDArray[x][y] && !isSeen[x][y]){
 
 			isSeen[x][y] = true;
-			point_t tempPoint = point_t(x,y);
-			if(!fillType)  tempPoint.setPen(this->pen1);
+			point_t tempPoint;
+			if(!fillType)  tempPoint = point_t(x,y, pen1);
 			else{
-				if((x%8<=3 && y%8<=3) || (x%8>=4 && y%8>=4)) tempPoint.setPen(this->pen1);
-				else tempPoint.setPen(this->pen2);
+				if((x%8<=3 && y%8<=3) || (x%8>=4 && y%8>=4)) tempPoint = point_t(x,y, pen1);
+				else tempPoint = point_t(x,y,pen2);
 			}
 			tempPoint.draw(twoDArray);
 			twoDArray[x][y] = false;

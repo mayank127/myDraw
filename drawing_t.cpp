@@ -35,6 +35,9 @@ list<object_t*> drawing_t::addObject(fill_t fill){
 void drawing_t::emptyObjectList(){
 	objects.clear();
 }
+void drawing_t::removeLastObject(){
+	objects.pop_back();
+}
 
 void drawing_t::draw(vector<vector<bool> >& twoDArray){
 	for (list<object_t*>::iterator iterator = objects.begin(), end = objects.end(); iterator != end; ++iterator) {

@@ -27,7 +27,7 @@ class drawing_t {
 		list<object_t*> addObject(polygon_t);		//adds a polygon to list
 		list<object_t*> addObject(fill_t);		//adds a fill to list
 		void emptyObjectList();						//empties the list
-
+		void removeLastObject();				//undo function
 		void draw(vector<vector<bool> >&);	//calls draw of all objects
 };
 #endif

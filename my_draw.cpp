@@ -21,6 +21,8 @@ int mode=0,linepoints=0,polypoints=0;
 line_t tempLine;
 polygon_t tempPoly;
 fill_t tempFill;
+pen_t pen1,pen2;
+int type;
 //GL reshape callback
 void ReshapeGL(int w, int h){
 	win_width = w;
@@ -63,13 +65,13 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 			glLoadIdentity();
 			gluOrtho2D( 0.0, (GLdouble)w, 0.0, (GLdouble)h);
 			glViewport( 0, 0, w, h );
-
-			canvas = canvas_t(drawing_t(), w, h, pen_t(1, color_t(r,g,b), false), pen_t(1, color_t(0,0,0), false));
-			cout<<"size"<<canvas.getCurrentPen().getSize()<<endl;
+			pen1 = pen_t(1, color_t(0,0,0), false);
+			pen2 = pen_t(pen1);
+			canvas = canvas_t(drawing_t(), w, h, pen_t(1, color_t(r,g,b), false), pen1);
 			tempPoly = polygon_t(canvas.getCurrentPen());
-			tempPoly.addVertex(point_t(w-10,0));
-			tempPoly.addVertex(point_t(w-10,h-10));
-			tempPoly.addVertex(point_t(0,h-10));
+			tempPoly.addVertex(point_t(w,0));
+			tempPoly.addVertex(point_t(w,h));
+			tempPoly.addVertex(point_t(0,h));
 			tempPoly.addVertex(point_t(0,0));
 			tempPoly.done();
 			canvas.drawing.addObject(tempPoly);
@@ -130,7 +132,38 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 			break;
 
 		case 'c':
-		case 'C'://change color
+		case 'C':{//change color
+				int r,g,b,size;
+				if(mode==3){
+					type =0;
+					cout<<"Type of fill (0:Normal, 1:Checkboard): ";
+					cin>>type;
+					if(type==0){
+						cout<<"Enter Pen Color (RGB) :";
+						cin>>r>>g>>b;
+						pen1 = pen_t(1, color_t(r,g,b), false);
+					}else{
+						cout<<"Enter Pen 1 Color (RGB) :";
+						cin>>r>>g>>b;
+						pen1 = pen_t(1, color_t(r,g,b), false);
+						cout<<"Enter Pen 2 Color (RGB) :";
+						cin>>r>>g>>b;
+						pen2 = pen_t(1, color_t(r,g,b), false);
+					}
+				}else{
+					cout<<"Enter Pen Color (RGB) :";
+					cin>>r>>g>>b;
+					cout<<"Enter Pen Size :";
+					cin>>size;
+					pen1 = pen_t(size, color_t(r,g,b), false);
+					canvas.setCurrentPen(pen1);
+				}
+			}
+			glutPostRedisplay();
+			break;
+		case 'u':
+		case 'U'://Undo
+				canvas.drawing.removeLastObject();
 			glutPostRedisplay();
 			break;
 		default:
@@ -169,7 +202,11 @@ void mouse(int button, int state, int x, int y)
 				}
 			}
 			if(mode==3){
-				tempFill = fill_t(canvas.getCurrentPen(), canvas.getBGColor(), true, point_t(x,win_height-y));
+				if(type==0){
+					tempFill = fill_t(pen1, point_t(x,win_height-y));
+				}else{
+					tempFill = fill_t(pen1, pen2, true, point_t(x,win_height-y));
+				}
 				canvas.drawing.addObject(tempFill);
 				glutPostRedisplay();
 			}

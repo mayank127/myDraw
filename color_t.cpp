@@ -1,9 +1,9 @@
 #include "color_t.h"
 
 color_t::color_t(int r,int g,int b){
-	this->r = r;
-	this->g = g;
-	this->b = b;
+	this->r = r%256;
+	this->g = g%256;
+	this->b = b%256;
 }
 
 color_t::color_t(){
