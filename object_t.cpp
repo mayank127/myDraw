@@ -19,3 +19,7 @@ pen_t object_t::setPen(pen_t pen){
 void object_t::draw(vector<vector<bool> >& twoDArray){
 
 }
+
+void object_t::print(fstream& fs){
+
+}

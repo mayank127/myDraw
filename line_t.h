@@ -4,6 +4,7 @@
 #include "object_t.h"
 #include "point_t.h"
 
+#include <fstream>
 #include <vector>
 using namespace std;
 
@@ -24,5 +25,6 @@ class line_t : public object_t{
 		point_t setP2(point_t);		//sets and Returns new Y of line
 
 		void draw(vector<vector<bool> >&);	//draw function override to draw a line
+		void print(fstream&);
 };
 #endif

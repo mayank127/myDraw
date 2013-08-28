@@ -86,3 +86,7 @@ void line_t::draw(vector<vector<bool> >& twoDArray){
 		}
 	}
 }
+
+void line_t::print(fstream& fs){
+	fs<<"line "<<p1.getX()<<" "<<p1.getY()<<" "<<p2.getX()<<" "<<p2.getY()<<" "<<pen.getColor().r<<" "<<pen.getColor().g<<" "<<pen.getColor().b<<" "<<pen.getSize()<<" "<<pen.getEraseMode()<<endl;
+}

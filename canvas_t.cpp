@@ -74,3 +74,9 @@ void canvas_t::draw(){
 			twoDArray[i][j]=false;
 	drawing.draw(twoDArray);
 }
+
+void canvas_t::save(fstream& fs){
+	fs<<"canvas "<<width<<" "<<height<<" "<<bgColor.getColor().r<<" "<<bgColor.getColor().g<<" "<<bgColor.getColor().b<<endl;
+	drawing.print(fs);
+	fs<<"done"<<endl;
+}

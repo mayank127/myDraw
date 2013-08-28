@@ -3,7 +3,7 @@
 
 #include "object_t.h"
 #include "pen_t.h"
-
+#include <fstream>
 #include <vector>
 using namespace std;
 
@@ -24,5 +24,6 @@ class point_t : public object_t{
 		int setY(int);		//sets and Returns new Y of point
 
 		void draw(vector<vector<bool> >&);	//draw function override to draw a point
+		void print(fstream&);
 };
 #endif

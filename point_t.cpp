@@ -61,3 +61,7 @@ void point_t::draw(vector<vector<bool> >& twoDArray) {
 	}
 	glEnd();
 }
+
+void point_t::print(fstream& fs){
+	fs<<"point "<<x<<" "<<y<<" "<<pen.getColor().r<<" "<<pen.getColor().g<<" "<<pen.getColor().b<<" "<<pen.getSize()<<" "<<pen.getEraseMode()<<endl;
+}

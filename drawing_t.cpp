@@ -44,3 +44,9 @@ void drawing_t::draw(vector<vector<bool> >& twoDArray){
     	(*iterator)->draw(twoDArray);
 	}
 }
+
+void drawing_t::print(fstream& fs){
+	for (list<object_t*>::iterator iterator = objects.begin(), end = objects.end(); iterator != end; ++iterator) {
+    	(*iterator)->print(fs);
+	}
+}

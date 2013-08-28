@@ -11,6 +11,7 @@
 #include "polygon_t.h"
 #include "drawing_t.h"
 #include "canvas_t.h"
+#include <fstream>
 
 using namespace std;
 
@@ -92,10 +93,13 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 			break;
 
 		case 's':
-		case 'S'://Save
-			glutPostRedisplay();
+		case 'S':
+		{//Save
+			fstream fs ("saveImage", fstream::out);
+			canvas.save(fs);
+			fs.close();
 			break;
-
+		}
 		case 'l':
 		case 'L'://Load
 			glutPostRedisplay();

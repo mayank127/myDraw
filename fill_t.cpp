@@ -107,3 +107,6 @@ void fill_t::draw(vector<vector<bool> >& twoDArray){
 	}
 
 }
+void fill_t::print(fstream& fs){
+	fs<<"fill "<<point.getX()<<" "<<point.getY()<<" "<<" "<<fillType<<" "<<pen1.getColor().r<<" "<<pen1.getColor().g<<" "<<pen1.getColor().b<<" "<<pen2.getColor().r<<" "<<pen2.getColor().g<<" "<<pen2.getColor().b<<endl;
+}

@@ -52,3 +52,10 @@ void polygon_t::draw(vector<vector<bool> >& twoDArray){
 	    }
 	}
 }
+
+void polygon_t::print(fstream& fs){
+	fs<<"polygon "<<vertices.size()<<" ";
+	for(list<point_t>::const_iterator it = vertices.begin(); it != vertices.end(); ++it)
+		fs<<(*it).getX()<<" "<<(*it).getY()<<" ";
+	fs<<pen.getColor().r<<" "<<pen.getColor().g<<" "<<pen.getColor().b<<" "<<pen.getSize()<<" "<<pen.getEraseMode()<<endl;
+}

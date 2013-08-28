@@ -1,36 +1,48 @@
-CC=g++
+CC  = g++
+LD	= ld
+RM 	= rm
+ECHO = /bin/echo
+PRINTF	= printf
+SED	= sed
+CP = cp
+MV = mv
 
-GL_INC_DIR=/usr/include
-GL_LIB_DIR=/usr/lib
 
-GL_LIBS=-L$(GL_LIB_DIR) -lglut -lGLU -lGL
+PROJECT_ROOT=.
+SRCDIR = $(PROJECT_ROOT)
+OBJDIR = $(PROJECT_ROOT)/obj
 
-CPPFLAGS = -Wall
+LIBS = -lGL -lGLU -lglut
+TARGET = myDraw
 
-.PHONY:clean all clean
+SRCS := $(wildcard $(SRCDIR)/*.cpp)
+INCS := $(wildcard $(SRCDIR)/*.h)
+OBJS := $(SRCS:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 
-LIBS = $(GL_LIBS)
-
-SRCS := $(wildcard *.cpp)
-INCS := $(wildcard *.hpp)
-OBJS := $(SRCS:%.cpp=obj/%.o)
-DEPS := $(OBJS:.o=.d)
-
-TARGET = my_draw
-
--include $(OBJS:.o=.d)
+.PHONY: all setup clean distclean
 
 all: setup $(TARGET)
 
 setup:
-	mkdir -p obj
-
-$(OBJS): obj/%.o : %.cpp
-	$(CC) $(CPPFLAGS) -c $< -o $@ -MD
+	@$(ECHO) "Setting up compilation.."
+	@mkdir -p obj
 
 $(TARGET): $(OBJS)
-	$(CC) -o $@ $(OBJS) $(LIBS)
-	make clean
+	@$(ECHO) "Building executable..."
+	@$(CC) -o $@  $(OBJS) $(LIBS)
+
+-include $(OBJS:.o=.d)
+
+$(OBJS): $(OBJDIR)/%.o : $(SRCDIR)/%.cpp
+	@$(PRINTF) "Compiling $(notdir $<)\n"
+	@$(CC) $(LIBS) -c $< -o $@
 
 clean:
-	rm -rf  ./*~ obj/
+	@$(ECHO) -n "Cleaning up..."
+	@$(RM) -rf $(OBJDIR) *~ $(SRCDIR)/*~
+	@$(ECHO) "Done"
+
+distclean:
+	@$(ECHO) -n "Cleaning up.."
+	@$(RM) -rf $(OBJDIR) *~  $(TARGET)
+	@$(ECHO) "Done"

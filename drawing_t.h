@@ -29,5 +29,6 @@ class drawing_t {
 		void emptyObjectList();						//empties the list
 		void removeLastObject();				//undo function
 		void draw(vector<vector<bool> >&);	//calls draw of all objects
+		void print(fstream&);
 };
 #endif

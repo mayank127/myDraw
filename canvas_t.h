@@ -4,6 +4,7 @@
 #include <vector>
 #include "drawing_t.h"
 #include "pen_t.h"
+#include <fstream>
 using namespace std;
 
 //Class for canvas object
@@ -34,6 +35,7 @@ class canvas_t {
 		pen_t setCurrentPen(pen_t); //sets and returns current pen
 
 		void clear();	//clears canvas
-		void draw();
+		void draw();	//draw function for canvas
+		void save(fstream&);	//save image
 };
 #endif

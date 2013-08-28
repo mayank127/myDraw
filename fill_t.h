@@ -5,6 +5,7 @@
 #include "pen_t.h"
 #include "point_t.h"
 
+#include <fstream>
 #include <vector>
 using namespace std;
 //Class for fill object
@@ -31,5 +32,6 @@ class fill_t : public object_t{
 		point_t setPoint(point_t);		//sets and returns point of fill
 
 		void draw(vector<vector<bool> >&);	//draw function override to draw a fill
+		void print(fstream&);
 };
 #endif
