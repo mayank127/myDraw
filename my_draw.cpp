@@ -12,6 +12,7 @@
 #include "drawing_t.h"
 #include "canvas_t.h"
 #include <fstream>
+#include <sstream>
 
 using namespace std;
 
@@ -22,6 +23,7 @@ int mode=0,linepoints=0,polypoints=0;
 line_t tempLine;
 polygon_t tempPoly;
 fill_t tempFill;
+point_t tempPoint;
 pen_t pen1,pen2;
 int type;
 //GL reshape callback
@@ -53,6 +55,7 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 		case 'n':
 		case 'N':
 		{	//Initialize a new canvas
+			cout<<"Creating New Canvas..!!"<<endl;
 			int w,h;
 			cout<<"Enter width : ";
 			cin>>w;
@@ -83,12 +86,14 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 		}
 		case 'd':
 		case 'D'://Initialize a new drawing
+			cout<<"Creating New Drawing..!!"<<endl;
 			tempLine = line_t();
 			tempPoly = polygon_t();
 			tempFill = fill_t();
 			linepoints = 0;
 			polypoints = 0;
 			canvas.setDrawing(drawing_t());
+			canvas.clear();
 			glutPostRedisplay();
 			break;
 
@@ -96,41 +101,128 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 		case 'S':
 		{//Save
 			fstream fs ("saveImage", fstream::out);
-			canvas.save(fs);
-			fs.close();
+			if (fs.is_open()){
+				canvas.save(fs);
+				fs.close();
+				cout<<"File successfully saved as saveImage"<<endl;
+			}else{
+				cout<<"Error in file"<<endl;
+			}
 			break;
 		}
 		case 'l':
-		case 'L'://Load
+		case 'L':
+		{//Load
+			char filename[100];
+			string line;
+			cout<<"Input file name: ";
+			cin>>filename;
+			fstream fs(filename, fstream::in);
+			if (fs.is_open()){
+				while (fs.good()){
+					getline (fs,line);
+					stringstream input(line);
+					string object;
+					input>>object;
+					if(object.compare("canvas") == 0){
+						cout<<"Loading Canvas..!!"<<endl;
+						int w, h, r,g,b;
+						input>>w>>h>>r>>g>>b;
+						glMatrixMode( GL_PROJECTION );
+						glLoadIdentity();
+						gluOrtho2D( 0.0, (GLdouble)w, 0.0, (GLdouble)h);
+						glViewport( 0, 0, w, h );
+						pen1 = pen_t(1, color_t(0,0,0), false);
+						pen2 = pen_t(pen1);
+						canvas = canvas_t(drawing_t(), w, h, pen_t(1, color_t(r,g,b), true), pen1);
+					} else if(object.compare("point")==0){
+						cout<<"Loading Point..!!"<<endl;
+						int x, y, r, g, b, size, type;
+						input>>x>>y>>r>>g>>b>>size>>type;
+						tempPoint = point_t(x,y,pen_t(size, color_t(r,g,b), type));
+						canvas.drawing.addObject(tempPoint);
+					} else if(object.compare("line")==0){
+						cout<<"Loading Line..!!"<<endl;
+						int x1, y1,x2,y2, r, g, b, size, type;
+						input>>x1>>y1>>x2>>y2>>r>>g>>b>>size>>type;
+						tempLine = line_t(point_t(x1,y1), point_t(x2,y2), pen_t(size, color_t(r,g,b), type));
+						canvas.drawing.addObject(tempLine);
+					} else if(object.compare("polygon")==0){
+			    		cout<<"Loading Polygon..!!"<<endl;
+						int n, x, y, r, g, b, size, type;
+						list <point_t> vertices;
+						input>>n;
+						for(int i=0; i<n; i++){
+							input>>x>>y;
+							vertices.push_back(point_t(x,y));
+						}
+						input>>r>>g>>b>>size>>type;
+						tempPoly = polygon_t(vertices, pen_t(size, color_t(r,g,b), type));
+						canvas.drawing.addObject(tempPoly);
+					} else if(object.compare("fill")==0){
+			    		cout<<"Loading Fill..!!"<<endl;
+						int x, y, r1, g1, b1, r2, g2, b2;
+						bool type;
+						input>>x>>y>>type>>r1>>g1>>b1>>r2>>g2>>b2;
+						tempFill = fill_t(pen_t(1, color_t(r1,g1,b1), false), pen_t(1, color_t(r2,g2,b2), false),type ,point_t(x,y));
+						canvas.drawing.addObject(tempFill);
+					} else if(object.compare("done")==0){
+						cout<<"File Reading Successfull..!!"<<endl;
+						break;
+					} else{
+						cout<<"Bug in file..!!Stopping filereading.Image might be damaged"<<endl;
+						break;
+					}
+				}
+				fs.close();
+			  }else{
+			  	cout<<"Error in file reading."<<endl;
+			  }
 			glutPostRedisplay();
 			break;
+		}
 
 		case '1'://Toggle Line drawing mode
-			if(mode==0)
+			if(mode==0){
+				cout<<"Line Mode Activated!!"<<endl;
+				cout<<"Click two points to join as line, c to change pen and 1 to deactivate line mode"<<endl;
 				mode = 1;
-			else if(mode==1)
+			}
+			else if(mode==1){
+				cout<<"Line Mode Dectivated!!"<<endl;
 				mode = 0;
+			}
 			glutPostRedisplay();
 			break;
 
 		case '2'://Toggle Polygon drawing mode
-			if(mode==0)
+			if(mode==0){
+				cout<<"Polygon Mode Activated!!"<<endl;
+				cout<<"Click points to add to polygon, c to change pen and 2 to draw polygon"<<endl;
 				mode = 2;
+			}
 			else if(mode==2){
 				mode = 0;
 				tempPoly.done();
 				canvas.drawing.addObject(tempPoly);
 				polypoints = 0;
+				cout<<"Polygon Drawn!!"<<endl;
+				cout<<"Polygon Mode Deactivated!!"<<endl;
 			}
 			glutPostRedisplay();
 			break;
 
 		case 'f':
 		case 'F'://Toggle Fill Mode
-			if(mode==0)
+			if(mode==0){
+				cout<<"Fill Mode Activated!!"<<endl;
+				cout<<"Click points to fill bounded region as line, c to change pen and type of fill and f to deactivate line mode"<<endl;
 				mode = 3;
-			else if(mode==3)
+			}
+			else if(mode==3){
+				cout<<"Fill Mode Deactivated!!"<<endl;
 				mode=0;
+			}
 
 			glutPostRedisplay();
 			break;
@@ -167,13 +259,13 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 			break;
 		case 'u':
 		case 'U'://Undo
+				cout<<"Undo Last Drawn Object"<<endl;
 				canvas.drawing.removeLastObject();
 			glutPostRedisplay();
 			break;
 		default:
 			break;
 	}
-	cout<<"Mode : "<<mode<<endl;
 }
 
 
@@ -190,6 +282,7 @@ void mouse(int button, int state, int x, int y)
 				else if ((linepoints % 2) == 1) {
 					tempLine.setP2(point_t(x,win_height - y));
 					canvas.drawing.addObject(tempLine);
+					cout<<"Line Drawn!!"<<endl;
 					linepoints++;
 				}
 				glutPostRedisplay();
@@ -212,6 +305,7 @@ void mouse(int button, int state, int x, int y)
 					tempFill = fill_t(pen1, pen2, true, point_t(x,win_height-y));
 				}
 				canvas.drawing.addObject(tempFill);
+				cout<<"Fill Drawn!!"<<endl;
 				glutPostRedisplay();
 			}
 		}
