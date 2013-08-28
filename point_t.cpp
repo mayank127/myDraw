@@ -41,7 +41,6 @@ int point_t::setY(int y){
 }
 
 void point_t::draw(vector<vector<bool> >& twoDArray) {
-	glColor3f((float)pen.getColor().r/255,(float)pen.getColor().g/255,(float)pen.getColor().b/255);
 	glBegin(GL_POINTS);
 
 	int ps = pen.getSize();

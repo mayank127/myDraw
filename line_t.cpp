@@ -1,5 +1,7 @@
 #include "line_t.h"
+#include <GL/glut.h>
 #include <cmath>
+
 using namespace std;
 
 line_t::line_t(point_t p1,point_t p2, pen_t pen) :object_t(pen){
@@ -45,6 +47,7 @@ void swap (int &x, int &y)
 }
 
 void line_t::draw(vector<vector<bool> >& twoDArray){
+	glColor3f((float)pen.getColor().r/255,(float)pen.getColor().g/255,(float)pen.getColor().b/255);
 	int x0 = p1.getX(), x1 = p2.getX(), y0 = p1.getY(), y1 = p2.getY();
 	bool steep = abs(y1 - y0) > abs(x1 - x0);
 	if (steep){

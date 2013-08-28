@@ -1,5 +1,6 @@
 #include "fill_t.h"
 #include <iostream>
+#include <GL/glut.h>
 #include <queue>
 using namespace std;
 fill_t::fill_t(pen_t pen, point_t point) :object_t(pen){
@@ -87,10 +88,19 @@ void fill_t::draw(vector<vector<bool> >& twoDArray){
 
 			isSeen[x][y] = true;
 			point_t tempPoint;
-			if(!fillType)  tempPoint = point_t(x,y, pen1);
+			if(!fillType) {
+				glColor3f((float)pen1.getColor().r/255,(float)pen1.getColor().g/255,(float)pen1.getColor().b/255);
+				tempPoint = point_t(x,y, pen1);
+			}
 			else{
-				if((x%8<=3 && y%8<=3) || (x%8>=4 && y%8>=4)) tempPoint = point_t(x,y, pen1);
-				else tempPoint = point_t(x,y,pen2);
+				if((x%16<=7 && y%16<=7) || (x%16>=7 && y%16>=7)){
+					glColor3f((float)pen1.getColor().r/255,(float)pen1.getColor().g/255,(float)pen1.getColor().b/255);
+					tempPoint = point_t(x,y, pen1);
+				}
+				else{
+					tempPoint = point_t(x,y,pen2);
+					glColor3f((float)pen2.getColor().r/255,(float)pen2.getColor().g/255,(float)pen2.getColor().b/255);
+				}
 			}
 			tempPoint.draw(twoDArray);
 			twoDArray[x][y] = false;
