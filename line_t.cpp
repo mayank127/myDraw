@@ -40,52 +40,82 @@ point_t line_t::setP2(point_t p2){
 	return p2;
 }
 
-void swap (int &x, int &y)
-{
-  int temp = x;
-  x = y; y = temp;
-}
-
 void line_t::draw(vector<vector<bool> >& twoDArray){
 	glColor3f((float)pen.getColor().r/255,(float)pen.getColor().g/255,(float)pen.getColor().b/255);
 	int x0 = p1.getX(), x1 = p2.getX(), y0 = p1.getY(), y1 = p2.getY();
-	bool steep = abs(y1 - y0) > abs(x1 - x0);
-	if (steep){
-		swap(x0, y0);
-		swap(x1, y1);
-	}
-	if (x0 > x1){
-		swap(x0, x1);
-		swap(y0, y1);
-	}
-	int deltax = x1 - x0;
-	int deltay = abs(y1 - y0);
 
-	float error = 0.0;
-	float deltaerr = (float)deltay / (float)deltax;
+	int x,y,dx,dy,dx1,dy1,newx,newy,xend,yend,i;
+ 	dx=x1-x0;
+	dy=y1-y0;
+ 	dx1=abs(dx);
+ 	dy1=abs(dy);
+ 	newx=2*dy1-dx1;
+ 	newy=2*dx1-dy1;
 
-	int ystep;
-	int y = y0;
-
-	if (y0 <= y1) ystep = 1; else ystep = -1;
-
-	point_t tempPoint = point_t();
+ 	point_t tempPoint = point_t();
 	tempPoint.setPen(this->pen);
 
-	for (int x=x0; x <= x1; x++){
-		if (steep){
-			tempPoint.setX(y);
-			tempPoint.setY(x);
+	if(dy1<=dx1){
+		if(dx>=0){
+			x=x0;
+			y=y0;
+			xend=x1;
 		}
 		else{
+			x=x1;
+			y=y1;
+			xend=x0;
+		}
+		tempPoint.setX(x);
+		tempPoint.setY(y);
+		tempPoint.draw(twoDArray);
+		for(i=0;x<xend;i++){
+			x=x+1;
+			if(newx<0){
+				newx=newx+2*dy1;
+			}
+			else{
+				if((dx<0 && dy<0) || (dx>0 && dy>0))
+					y=y+1;
+				else
+					y=y-1;
+				newx=newx+2*(dy1-dx1);
+			}
 			tempPoint.setX(x);
 			tempPoint.setY(y);
+			tempPoint.draw(twoDArray);
 		}
+	}
+	else{
+		if(dy>=0){
+			x=x0;
+			y=y0;
+			yend=y1;
+		}
+		else{
+			x=x1;
+			y=y1;
+			yend=y0;
+		}
+		tempPoint.setX(x);
+		tempPoint.setY(y);
 		tempPoint.draw(twoDArray);
-		error = error + deltaerr;
-		if (error >= 0.5){
-			y = y + ystep;
-			error = error - 1.0;
+		for(i=0;y<yend;i++){
+			y=y+1;
+			if(newy<=0){
+				newy=newy+2*dx1;
+			}
+			else{
+				if((dx<0 && dy<0) || (dx>0 && dy>0))
+					x=x+1;
+				else{
+					x=x-1;
+				}
+				newy=newy+2*(dx1-dy1);
+			}
+			tempPoint.setX(x);
+			tempPoint.setY(y);
+			tempPoint.draw(twoDArray);
 		}
 	}
 }

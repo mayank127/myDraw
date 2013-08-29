@@ -197,7 +197,7 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 		case '1'://Toggle Line drawing mode
 			if(mode==0){
 				cout<<"Line Mode Activated!!"<<endl;
-				cout<<"\tClick two points to join as line, \n\tUse right click to use erase mode \n\tc to change pen \n\t 1 to deactivate line mode"<<endl;
+				cout<<"\tClick two points to join as line, \n\tUse right click to use erase mode \n\tc to change pen \n\t1 to deactivate line mode"<<endl;
 				mode = 1;
 			}
 			else if(mode==1){
@@ -210,7 +210,7 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 		case '2'://Toggle Polygon drawing mode
 			if(mode==0){
 				cout<<"Polygon Mode Activated!!"<<endl;
-				cout<<"\tClick points to add to polygon,\n\tUse right click to use erase mode\n\t c to change pen \n\t 2 to draw polygon"<<endl;
+				cout<<"\tClick points to add to polygon,\n\tUse right click to use erase mode\n\tc to change pen \n\t2 to draw polygon"<<endl;
 				mode = 2;
 			}
 			else if(mode==2){
@@ -228,7 +228,7 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 		case 'F'://Toggle Fill Mode
 			if(mode==0){
 				cout<<"Fill Mode Activated!!"<<endl;
-				cout<<"\tClick points to fill bounded region as line,\n\tUse right click to use erase mode \n\tc to change pen and type of fill \n\t f to deactivate line mode"<<endl;
+				cout<<"\tClick points to fill bounded region as line,\n\tUse right click to use erase mode \n\tc to change pen and type of fill \n\tf to deactivate line mode"<<endl;
 				mode = 3;
 			}
 			else if(mode==3){
