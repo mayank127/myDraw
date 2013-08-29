@@ -16,8 +16,8 @@
 
 using namespace std;
 
-int win_width = 500;
-int win_height = 500;
+int win_width = 1000;
+int win_height = 700;
 canvas_t canvas;
 int mode=0,linepoints=0,polypoints=0;
 line_t tempLine;
@@ -26,10 +26,12 @@ fill_t tempFill;
 point_t tempPoint;
 pen_t pen1,pen2;
 int type;
+bool all = true;
 //GL reshape callback
 void ReshapeGL(int w, int h){
 	win_width = w;
 	win_height = h;
+	all=true;
 	glutPostRedisplay();
 }
 
@@ -37,9 +39,14 @@ void ReshapeGL(int w, int h){
 
 //GL display callback - does all the drawing
 GLvoid DisplayGL(){
-	glClearColor(0.0, 0.0, 0.0, 0.0);
-	glClear(GL_COLOR_BUFFER_BIT);
-	canvas.draw();
+	if(all){
+		glClearColor(0.0, 0.0, 0.0, 0.0);
+		glClear(GL_COLOR_BUFFER_BIT);
+		canvas.draw();
+	}else{
+		canvas.drawing.getObjects().back()->draw(canvas.twoDArray);
+		all=true;
+	}
 	glFlush();
 }
 
@@ -81,6 +88,7 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 			canvas.drawing.addObject(tempPoly);
 			tempFill = fill_t(canvas.getBGColor(), point_t(w/2,h/2));
 			canvas.drawing.addObject(tempFill);
+			all=true;
 			glutPostRedisplay();
 			break;
 		}
@@ -105,6 +113,7 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 			canvas.drawing.addObject(tempPoly);
 			tempFill = fill_t(canvas.getBGColor(), point_t(w/2,h/2));
 			canvas.drawing.addObject(tempFill);
+			all=true;
 			glutPostRedisplay();
 			break;
 		}
@@ -112,7 +121,7 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 		case 's':
 		case 'S':
 		{//Save
-			fstream fs ("saveImage", fstream::out);
+			fstream fs ("images/saveImage", fstream::out);
 			if (fs.is_open()){
 				canvas.save(fs);
 				fs.close();
@@ -190,6 +199,7 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 			}else{
 				cout<<"Error in file reading."<<endl;
 			}
+			all=true;
 			glutPostRedisplay();
 			break;
 		}
@@ -204,7 +214,6 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 				cout<<"Line Mode Dectivated!!"<<endl;
 				mode = 0;
 			}
-			glutPostRedisplay();
 			break;
 
 		case '2'://Toggle Polygon drawing mode
@@ -221,6 +230,7 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 				cout<<"Polygon Drawn!!"<<endl;
 				cout<<"Polygon Mode Deactivated!!"<<endl;
 			}
+			all=false;
 			glutPostRedisplay();
 			break;
 
@@ -235,8 +245,6 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 				cout<<"Fill Mode Deactivated!!"<<endl;
 				mode=0;
 			}
-
-			glutPostRedisplay();
 			break;
 
 		case 'c':
@@ -276,6 +284,7 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 		case 'U'://Undo
 				cout<<"Undo Last Drawn Object"<<endl;
 				canvas.drawing.removeLastObject();
+			all=true;
 			glutPostRedisplay();
 			break;
 		default:
@@ -303,6 +312,7 @@ void mouse(int button, int state, int x, int y)
 					cout<<"Line Drawn!!"<<endl;
 					linepoints++;
 				}
+				all=false;
 				glutPostRedisplay();
 			}
 			if(mode==2){
@@ -332,6 +342,7 @@ void mouse(int button, int state, int x, int y)
 
 				canvas.drawing.addObject(tempFill);
 				cout<<"Fill Drawn!!"<<endl;
+				all=false;
 				glutPostRedisplay();
 			}
 		}

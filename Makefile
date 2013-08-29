@@ -26,6 +26,7 @@ all: setup $(TARGET)
 setup:
 	@$(ECHO) "Setting up compilation.."
 	@mkdir -p obj
+	@mkdir -p images
 
 $(TARGET): $(OBJS)
 	@$(ECHO) "Building executable..."

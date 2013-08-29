@@ -23,7 +23,6 @@
 myDraw
 input
 out
-saveImage
 
 #obj directory
 obj/
