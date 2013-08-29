@@ -71,7 +71,7 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 			glViewport( 0, 0, w, h );
 			pen1 = pen_t(1, color_t(0,0,0), false);
 			pen2 = pen_t(pen1);
-			canvas = canvas_t(drawing_t(), w, h, pen_t(1, color_t(r,g,b), false), pen1);
+			canvas = canvas_t(drawing_t(), w, h, pen_t(1, color_t(r,g,b), true), pen1);
 			tempPoly = polygon_t(canvas.getCurrentPen());
 			tempPoly.addVertex(point_t(w,0));
 			tempPoly.addVertex(point_t(w,h));
@@ -85,7 +85,8 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 			break;
 		}
 		case 'd':
-		case 'D'://Initialize a new drawing
+		case 'D':
+		{//Initialize a new drawing
 			cout<<"Creating New Drawing..!!"<<endl;
 			tempLine = line_t();
 			tempPoly = polygon_t();
@@ -94,8 +95,19 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 			polypoints = 0;
 			canvas.setDrawing(drawing_t());
 			canvas.clear();
+			int w=canvas.getWidth(), h=canvas.getHeight();
+			tempPoly = polygon_t(canvas.getCurrentPen());
+			tempPoly.addVertex(point_t(w,0));
+			tempPoly.addVertex(point_t(w,h));
+			tempPoly.addVertex(point_t(0,h));
+			tempPoly.addVertex(point_t(0,0));
+			tempPoly.done();
+			canvas.drawing.addObject(tempPoly);
+			tempFill = fill_t(canvas.getBGColor(), point_t(w/2,h/2));
+			canvas.drawing.addObject(tempFill);
 			glutPostRedisplay();
 			break;
+		}
 
 		case 's':
 		case 'S':
@@ -148,7 +160,7 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 						tempLine = line_t(point_t(x1,y1), point_t(x2,y2), pen_t(size, color_t(r,g,b), type));
 						canvas.drawing.addObject(tempLine);
 					} else if(object.compare("polygon")==0){
-			    		cout<<"Loading Polygon..!!"<<endl;
+						cout<<"Loading Polygon..!!"<<endl;
 						int n, x, y, r, g, b, size, type;
 						list <point_t> vertices;
 						input>>n;
@@ -160,7 +172,7 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 						tempPoly = polygon_t(vertices, pen_t(size, color_t(r,g,b), type));
 						canvas.drawing.addObject(tempPoly);
 					} else if(object.compare("fill")==0){
-			    		cout<<"Loading Fill..!!"<<endl;
+						cout<<"Loading Fill..!!"<<endl;
 						int x, y, r1, g1, b1, r2, g2, b2;
 						bool type;
 						input>>x>>y>>type>>r1>>g1>>b1>>r2>>g2>>b2;
@@ -175,9 +187,9 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 					}
 				}
 				fs.close();
-			  }else{
-			  	cout<<"Error in file reading."<<endl;
-			  }
+			}else{
+				cout<<"Error in file reading."<<endl;
+			}
 			glutPostRedisplay();
 			break;
 		}
@@ -185,7 +197,7 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 		case '1'://Toggle Line drawing mode
 			if(mode==0){
 				cout<<"Line Mode Activated!!"<<endl;
-				cout<<"Click two points to join as line, c to change pen and 1 to deactivate line mode"<<endl;
+				cout<<"\tClick two points to join as line, \n\tUse right click to use erase mode \n\tc to change pen \n\t 1 to deactivate line mode"<<endl;
 				mode = 1;
 			}
 			else if(mode==1){
@@ -198,7 +210,7 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 		case '2'://Toggle Polygon drawing mode
 			if(mode==0){
 				cout<<"Polygon Mode Activated!!"<<endl;
-				cout<<"Click points to add to polygon, c to change pen and 2 to draw polygon"<<endl;
+				cout<<"\tClick points to add to polygon,\n\tUse right click to use erase mode\n\t c to change pen \n\t 2 to draw polygon"<<endl;
 				mode = 2;
 			}
 			else if(mode==2){
@@ -216,7 +228,7 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 		case 'F'://Toggle Fill Mode
 			if(mode==0){
 				cout<<"Fill Mode Activated!!"<<endl;
-				cout<<"Click points to fill bounded region as line, c to change pen and type of fill and f to deactivate line mode"<<endl;
+				cout<<"\tClick points to fill bounded region as line,\n\tUse right click to use erase mode \n\tc to change pen and type of fill \n\t f to deactivate line mode"<<endl;
 				mode = 3;
 			}
 			else if(mode==3){
@@ -228,7 +240,8 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 			break;
 
 		case 'c':
-		case 'C':{//change color
+		case 'C':
+			{//change color
 				int r,g,b,size;
 				if(mode==3){
 					type =0;
@@ -253,9 +266,11 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 					cin>>size;
 					pen1 = pen_t(size, color_t(r,g,b), false);
 					canvas.setCurrentPen(pen1);
+					pen_t tempPen = pen_t(canvas.getBGColor());
+					tempPen.setSize(size);
+					canvas.setBGColor(tempPen);
 				}
 			}
-			glutPostRedisplay();
 			break;
 		case 'u':
 		case 'U'://Undo
@@ -276,7 +291,10 @@ void mouse(int button, int state, int x, int y)
 			if(mode==1){
 				if ((linepoints % 2 )== 0) {
 					linepoints = 0;
-					tempLine = line_t(point_t(x,win_height-y), point_t(), canvas.getCurrentPen());
+					if(button == GLUT_LEFT_BUTTON)
+						tempLine = line_t(point_t(x,win_height-y), point_t(), canvas.getCurrentPen());
+					else
+						tempLine = line_t(point_t(x,win_height-y), point_t(), canvas.getBGColor());
 					linepoints++;
 				}
 				else if ((linepoints % 2) == 1) {
@@ -290,7 +308,10 @@ void mouse(int button, int state, int x, int y)
 			if(mode==2){
 				if (polypoints == 0) {
 					polypoints++;
-					tempPoly = polygon_t(canvas.getCurrentPen());
+					if(button == GLUT_LEFT_BUTTON)
+						tempPoly = polygon_t(canvas.getCurrentPen());
+					else
+						tempPoly = polygon_t(canvas.getBGColor());
 					tempPoly.addVertex(point_t(x,win_height-y));
 				}
 				else{
@@ -299,11 +320,16 @@ void mouse(int button, int state, int x, int y)
 				}
 			}
 			if(mode==3){
-				if(type==0){
-					tempFill = fill_t(pen1, point_t(x,win_height-y));
-				}else{
-					tempFill = fill_t(pen1, pen2, true, point_t(x,win_height-y));
+				if(button == GLUT_LEFT_BUTTON){
+					if(type==0){
+						tempFill = fill_t(pen1, point_t(x,win_height-y));
+					}else{
+						tempFill = fill_t(pen1, pen2, true, point_t(x,win_height-y));
+					}
 				}
+				else
+					tempFill = fill_t(canvas.getBGColor(), point_t(x,win_height-y));
+
 				canvas.drawing.addObject(tempFill);
 				cout<<"Fill Drawn!!"<<endl;
 				glutPostRedisplay();
