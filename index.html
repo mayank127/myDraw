@@ -1,64 +1,131 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
   <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Mydraw : cs475 Graphics - Assignment" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Mydraw by mayank127</title>
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>Mydraw</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
   </head>
-
   <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Mydraw</h1>
+        <p class="header">cs475 Graphics - Assignment</p>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/mayank127/myDraw">View on GitHub</a>
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/mayank127/myDraw/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/mayank127/myDraw/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/mayank127/myDraw">View On GitHub</a></li>
+        </ul>
 
-          <h1 id="project_title">Mydraw</h1>
-          <h2 id="project_tagline">cs475 Graphics - Assignment</h2>
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/mayank127">mayank127</a></p>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/mayank127/myDraw/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/mayank127/myDraw/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
+      </header>
+      <section>
         <h3>
-<a name="my-draw---a-opengl-drawing-tool" class="anchor" href="#my-draw---a-opengl-drawing-tool"><span class="octicon octicon-link"></span></a>My Draw - A OpenGl Drawing tool</h3>
+<a name="my-draw---an-opengl-drawing-tool" class="anchor" href="#my-draw---an-opengl-drawing-tool"><span class="octicon octicon-link"></span></a>My Draw - An OpenGl Drawing tool</h3>
 
 <p>This is a simple drawing program which can draw line and polygons. Also it has ability to fill bounded regions with simple and check board fill.</p>
 
-<hr><p><strong>color_t class</strong></p>
+<hr><p><strong>Team</strong></p>
 
 <ul>
-<li>It has Red, Green and Blue value to store color information. Integers can range from 0-255.
-***
-<strong>pen_t class</strong>
-</li>
+<li>Mayank Meghwanshi (<a href="https://github.com/mayank127" class="user-mention">@mayank127</a>)</li>
+<li>Aditya Raj (<a href="https://github.com/grumpy-garfield" class="user-mention">@grumpy-garfield</a>)</li>
+</ul><hr><p><strong>color_t class</strong></p>
+
+<ul>
+<li>It has Red, Green and Blue value to store color information. Integers can range from 0-255</li>
+</ul><hr><p><strong>pen_t class</strong></p>
+
+<ul>
 <li>pen has size (int)</li>
 <li>pen has color (color_t)</li>
 <li>pen has eraseMode (bool)</li>
-</ul>
-      </section>
-    </div>
+</ul><hr><p><strong>object_t class</strong></p>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Mydraw maintained by <a href="https://github.com/mayank127">mayank127</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+<ul>
+<li>this has a pen (pen_t)</li>
+<li>it is an abstract class for all objects which are drawn on screen</li>
+<li>it has function like draw and print which draws inherited objects and prints info in fstream.</li>
+</ul><hr><p><strong>point_t class</strong></p>
+
+<ul>
+<li>it is inherited from object_t so it contains pen</li>
+<li>it contains x, y (int) to store location of point to be drawn</li>
+<li>this is the only object which directly used opengl interface to draw</li>
+<li>its draw function also updates a bool 2d array containing boundary information like line and polygon</li>
+</ul><hr><p><strong>line_t class</strong></p>
+
+<ul>
+<li>it is inherited from object_t so it contains pen</li>
+<li>it contains p1, p2 (point_t) to store end points of line</li>
+<li>it uses bresenham algorithm for all integers to draw line in all quadrants</li>
+<li>it uses draw function of point to draw a line
+<img src="http://www.cse.iitb.ac.in/%7Emanku/Images/myDraw/lines.png" alt="Lines Sample">
+</li>
+</ul><hr><p><strong>polygon_t class</strong></p>
+
+<ul>
+<li>it is inherited from object_t so it contains pen</li>
+<li>it contains a list of points (list) to store vertices of polygon</li>
+<li>it uses a loop to take a pair of point which initiate a line drawing using line_t
+<img src="http://www.cse.iitb.ac.in/%7Emanku/Images/myDraw/polygons.png" alt="Polygons Sample">
+</li>
+</ul><hr><p><strong>fill_t class</strong></p>
+
+<ul>
+<li>it is inherited from object_t so it contains pen</li>
+<li>it contains pen1, pen2 (pen_t) to store two colors to facilitate check board fill also</li>
+<li>it has a point (point_t) to know the start point of flood fill</li>
+<li>it contains a boolean check to identify type of fill</li>
+<li>it implements a flood fill algorithm for four neighbors and queue implementation
+<img src="http://www.cse.iitb.ac.in/%7Emanku/Images/myDraw/fill.png" alt="Fill Sample">
+</li>
+</ul><hr><p><strong>drawing_t class</strong></p>
+
+<ul>
+<li>it contains list of objects (list)</li>
+<li>the list uses polymorphism concept to contain different class object as they are all inherited from object_t</li>
+<li>it implements different addObject methods for each of the inherited class of object_t class</li>
+<li>it has draw function to call all objects draw function and similar for print</li>
+</ul><hr><p><strong>canvas_t class</strong></p>
+
+<ul>
+<li>it has a current pen and background color (pen_t) to save corresponding objects</li>
+<li>it has width, height (int) to store dimension info</li>
+<li>it has drawing (drawing_t) to save the drawing</li>
+<li>it has twoDArray ( vector &gt;) to store boundary information</li>
+<li>it clear, draw and save which clears objects list, calls draw function of drawing and calls print function of drawing</li>
+</ul><hr><p><strong>my_draw main file</strong></p>
+
+<ul>
+<li>it has reshape function to update window size variables to get mouse position</li>
+<li>it has display function to redraw image or draw only last object as required</li>
+<li>key board and mouse call back functions</li>
+<li>Use c to load new canvas - then specify size and background color in terminal </li>
+<li>Use d to initialize new drawing Use 1 to switch on line mode - which on clicking two points will draw the line and 1 to switch of line mode </li>
+<li>Use 2 to switch on polygon mode - which on clicking will add points to polygon and 2 to draw polygon and for next polygon switch on polygon mode </li>
+<li>Use f to switch on fill mode - click to fill the bounded area </li>
+<li>Use c to change color of line and polygon when in fill mode you can choose check board and simple fill, which then will ask for respective colors Use u to undo last action </li>
+<li>Use l to load a image Use s to save image to images/saveImage file which should be copied so it is not replaced on next save </li>
+<li>Use esc to close</li>
+</ul><hr><p><strong>Image of my room in myDraw</strong>
+<img src="http://www.cse.iitb.ac.in/%7Emanku/Images/myDraw/room.png" alt="Room Image"></p>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
       </footer>
     </div>
-
-    
-
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
   </body>
 </html>
