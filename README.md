@@ -3,7 +3,7 @@ myDraw
 
 cs475 Graphics - Assignment
 
-Link to html page for the assignment : www.cse.iitb.ac.in/~manku/myDraw.html
+Link to html page for the assignment : http://mayank127.github.io/myDraw/
 
 ##How to use
 use make to compile the project which will result in myDraw executable.
