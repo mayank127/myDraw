@@ -65,16 +65,16 @@ point_t fill_t::setPoint(point_t point){
 	return point;
 }
 
+//draw method for fill
 void fill_t::draw(vector<vector<bool> >& twoDArray){
-	//draw method for fill
 	int w = twoDArray.size();
 	if(w<=0) return;
 	int h = twoDArray[0].size();
 	pen1.setSize(1);
 	pen2.setSize(1);
 
-	queue<point_t> neighbours;
-	vector<vector<bool> >  isSeen(w, vector<bool>(h, false));
+	queue<point_t> neighbours;		//keeping neighbours array
+	vector<vector<bool> >  isSeen(w, vector<bool>(h, false));	//keeping count of seen neighbours
 	int x = point.getX();
 	int y = point.getY();
 	if(x>=w || x<0 || y>=h ||y<0)return;
@@ -117,6 +117,9 @@ void fill_t::draw(vector<vector<bool> >& twoDArray){
 	}
 
 }
+
+//printing fill to fstream
+//x, y, type, r1,g1,b1,r2,g2,b2
 void fill_t::print(fstream& fs){
 	fs<<"fill "<<point.getX()<<" "<<point.getY()<<" "<<" "<<fillType<<" "<<pen1.getColor().r<<" "<<pen1.getColor().g<<" "<<pen1.getColor().b<<" "<<pen2.getColor().r<<" "<<pen2.getColor().g<<" "<<pen2.getColor().b<<endl;
 }

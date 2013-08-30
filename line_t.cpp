@@ -40,6 +40,7 @@ point_t line_t::setP2(point_t p2){
 	return p2;
 }
 
+//draw function for bresenham in all integer
 void line_t::draw(vector<vector<bool> >& twoDArray){
 	glColor3f((float)pen.getColor().r/255,(float)pen.getColor().g/255,(float)pen.getColor().b/255);
 	int x0 = p1.getX(), x1 = p2.getX(), y0 = p1.getY(), y1 = p2.getY();
@@ -55,8 +56,8 @@ void line_t::draw(vector<vector<bool> >& twoDArray){
  	point_t tempPoint = point_t();
 	tempPoint.setPen(this->pen);
 
-	if(dy1<=dx1){
-		if(dx>=0){
+	if(dy1<=dx1){		//if line is not steep
+		if(dx>=0){	//checking for coordinate with higher value of x
 			x=x0;
 			y=y0;
 			xend=x1;
@@ -69,7 +70,7 @@ void line_t::draw(vector<vector<bool> >& twoDArray){
 		tempPoint.setX(x);
 		tempPoint.setY(y);
 		tempPoint.draw(twoDArray);
-		for(i=0;x<xend;i++){
+		for(i=0;x<xend;i++){	//looping over x and till xend and updating according to bresenham
 			x=x+1;
 			if(newx<0){
 				newx=newx+2*dy1;
@@ -87,7 +88,7 @@ void line_t::draw(vector<vector<bool> >& twoDArray){
 		}
 	}
 	else{
-		if(dy>=0){
+		if(dy>=0){	//swapping of coordinates
 			x=x0;
 			y=y0;
 			yend=y1;
@@ -120,6 +121,8 @@ void line_t::draw(vector<vector<bool> >& twoDArray){
 	}
 }
 
+//printing line to fstream
+//x0, y0, x1, y1, r, g, b, size, mode
 void line_t::print(fstream& fs){
 	fs<<"line "<<p1.getX()<<" "<<p1.getY()<<" "<<p2.getX()<<" "<<p2.getY()<<" "<<pen.getColor().r<<" "<<pen.getColor().g<<" "<<pen.getColor().b<<" "<<pen.getSize()<<" "<<pen.getEraseMode()<<endl;
 }

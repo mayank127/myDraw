@@ -40,6 +40,7 @@ int point_t::setY(int y){
 	return y;
 }
 
+//draws point on screen and updating boundary array with a square of length size of pen
 void point_t::draw(vector<vector<bool> >& twoDArray) {
 	glBegin(GL_POINTS);
 
@@ -61,6 +62,8 @@ void point_t::draw(vector<vector<bool> >& twoDArray) {
 	glEnd();
 }
 
+//printing point to fstream
+//x, y, r, g, b, size, mode
 void point_t::print(fstream& fs){
 	fs<<"point "<<x<<" "<<y<<" "<<pen.getColor().r<<" "<<pen.getColor().g<<" "<<pen.getColor().b<<" "<<pen.getSize()<<" "<<pen.getEraseMode()<<endl;
 }

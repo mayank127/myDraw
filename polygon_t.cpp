@@ -38,6 +38,7 @@ list<point_t> polygon_t::done(){
 	return vertices;
 }
 
+//looping over all points two make lines and calling drawing fucntion from line
 void polygon_t::draw(vector<vector<bool> >& twoDArray){
 	line_t tempLine = line_t();
 	tempLine.setPen(this->getPen());
@@ -53,6 +54,8 @@ void polygon_t::draw(vector<vector<bool> >& twoDArray){
 	}
 }
 
+//printing polygon to fstream
+//n , n (x,y pairs), r, g, b, size, mode
 void polygon_t::print(fstream& fs){
 	fs<<"polygon "<<vertices.size()<<" ";
 	for(list<point_t>::const_iterator it = vertices.begin(); it != vertices.end(); ++it)

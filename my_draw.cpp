@@ -38,6 +38,7 @@ void ReshapeGL(int w, int h){
 //-------------------------------------------------------------------------
 
 //GL display callback - does all the drawing
+//complete drawing when all is true else only last object is drawn
 GLvoid DisplayGL(){
 	if(all){
 		glClearColor(0.0, 0.0, 0.0, 0.0);
@@ -85,9 +86,9 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 			tempPoly.addVertex(point_t(0,h));
 			tempPoly.addVertex(point_t(0,0));
 			tempPoly.done();
-			canvas.drawing.addObject(tempPoly);
+			canvas.drawing.addObject(tempPoly);			//temp polygon of size canvas
 			tempFill = fill_t(canvas.getBGColor(), point_t(w/2,h/2));
-			canvas.drawing.addObject(tempFill);
+			canvas.drawing.addObject(tempFill);			//temp fill to fill background
 			all=true;
 			glutPostRedisplay();
 			break;
@@ -95,6 +96,7 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 		case 'd':
 		case 'D':
 		{//Initialize a new drawing
+		//resetting drawing and redrawing canvas
 			cout<<"Creating New Drawing..!!"<<endl;
 			tempLine = line_t();
 			tempPoly = polygon_t();
@@ -120,7 +122,7 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 
 		case 's':
 		case 'S':
-		{//Save
+		{//Saving image to images/saveImgae
 			fstream fs ("images/saveImage", fstream::out);
 			if (fs.is_open()){
 				canvas.save(fs);
@@ -133,7 +135,7 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 		}
 		case 'l':
 		case 'L':
-		{//Load
+		{//Load image from file
 			char filename[100];
 			string line;
 			cout<<"Input file name: ";
@@ -249,7 +251,7 @@ GLvoid KeyPressedGL(unsigned char key, GLint x, GLint y){
 
 		case 'c':
 		case 'C':
-			{//change color
+			{//change pen color
 				int r,g,b,size;
 				if(mode==3){
 					type =0;

@@ -68,6 +68,7 @@ void canvas_t::clear(){
 	drawing.emptyObjectList();
 }
 
+//draw function which resets array and draws the whole drawing again
 void canvas_t::draw(){
 	for(int i=0;i<width;i++)
 		for(int j=0;j<height;j++)
@@ -75,6 +76,7 @@ void canvas_t::draw(){
 	drawing.draw(twoDArray);
 }
 
+//saving file which outputs to filestream
 void canvas_t::save(fstream& fs){
 	fs<<"canvas "<<width<<" "<<height<<" "<<bgColor.getColor().r<<" "<<bgColor.getColor().g<<" "<<bgColor.getColor().b<<endl;
 	drawing.print(fs);
